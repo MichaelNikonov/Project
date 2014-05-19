@@ -271,17 +271,17 @@ VALUES
 * Shula I, 	058-1234567, 	shula@braude.ac.il,	Customer Care
 */
 INSERT INTO users 
-	(username,password) 
+	(username,password,permission) 
 VALUES 
-	('dan','dan'),
-	('sara','sara'),
-	('avi','avi'),
-	('dor','dor'),
-	('shir','shir'),
-	('dana','dana'),
-	('ilan','ilan'),
-	('liat','liat'),
-	('shula','shula');
+	('dan','dan',0),
+	('sara','sara',0),
+	('avi','avi',1),
+	('dor','dor',2),
+	('shir','shir',3),
+	('dana','dana',4),
+	('ilan','ilan',5),
+	('liat','liat',6),
+	('shula','shula',7);
 
 INSERT INTO clients
 	(id,first_name,last_name,phone,email,username)
