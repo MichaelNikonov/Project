@@ -1,4 +1,3 @@
-Project
-=======
+Ort Braude College Of Engineering
 
-Braude - Spring 2014 Project - Group 7
+Software Engineering Lab Project - Spring 2014 - SGI
