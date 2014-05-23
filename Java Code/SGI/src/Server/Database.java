@@ -93,23 +93,18 @@ public final class Database {
 		
 	}
 	
-	public ArrayList<User> getUsers(String username, String password) {
+	public ArrayList<User> getUsers() {
 		try {
 			ArrayList<User> res = null;
 			ResultSet rs = null;
-			if (username.length()!=0 && password.length()!=0) {
-				_getUser.setString(1, username);
-				_getUser.setString(2, password);
-				rs = _getUser.executeQuery();
-			} else {
-				rs = _getUsers.executeQuery();				
-			}
+			rs = _getUsers.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				res = new ArrayList<User>();
 				while (rs.next()) {
 					res.add(
 							new User(rs.getString(1), rs.getString(2), 
-									new Permission(rs.getInt(3), rs.getString(5))));
+									new Permission(rs.getInt(3), 
+											rs.getString(5))));
 				}
 			}
 			return res;
@@ -119,5 +114,86 @@ public final class Database {
 			return null;
 		}
 	}
+
+	public User getUser(String username, String password) {
+		try {
+			User res = null;
+			ResultSet rs = null;
+			_getUser.setString(1, username);
+			_getUser.setString(2, password);
+			rs = _getUser.executeQuery();
+			if (getResultSetCount(rs) > 0) {
+				rs.next();
+				res = new User(rs.getString(1), rs.getString(2), 
+									new Permission(rs.getInt(3), 
+											rs.getString(5)));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
 	
+	public Client getClient(String username) {
+		try {
+			Client res = null;
+			ResultSet rs = null;
+			_getClientByUsername.setString(1, username);
+			rs = _getClientByUsername.executeQuery();
+			if (getResultSetCount(rs) > 0) {
+				rs.next();
+				res = new Client(rs.getInt(1), rs.getString(2), rs.getString(3), 
+						rs.getString(4), rs.getString(5), rs.getString(6));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}		
+	}
+
+	public Client getClient(int id) {
+		try {
+			Client res = null;
+			ResultSet rs = null;
+			_getClientById.setInt(1, id);
+			rs = _getClientById.executeQuery();
+			if (getResultSetCount(rs) > 0) {
+				rs.next();
+				res = new Client(rs.getInt(1), rs.getString(2), rs.getString(3), 
+						rs.getString(4), rs.getString(5), rs.getString(6));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}		
+	}
+
+	public ArrayList<Client> getClients(String firstName, String lastName) {
+		try {
+			ArrayList<Client> res = null;
+			ResultSet rs = null;
+			_getClientByName.setString(1, firstName);
+			_getClientByName.setString(2, lastName);
+			rs = _getClientByName.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<Client>();
+				while (rs.next()) {
+					res.add(
+						new Client(rs.getInt(1), rs.getString(2), rs.getString(3), 
+							rs.getString(4), rs.getString(5), rs.getString(6)));				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
 }
