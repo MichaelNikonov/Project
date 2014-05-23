@@ -28,11 +28,18 @@ USE SGI;
 * all 'timedate' fields will be in the format of 'DD/MM/YYYY HH:mm:ss'
 */
 
+CREATE TABLE permissions (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id)
+);
+
 CREATE TABLE users (
 	username VARCHAR(255) NOT NULL UNIQUE,
 	password VARCHAR(255) NOT NULL,
 	permission INT NOT NULL,
-	PRIMARY KEY (username)
+	PRIMARY KEY (username),
+	FOREIGN KEY (permission) REFERENCES permissions(id)
 );
 
 CREATE TABLE clients (
@@ -205,6 +212,18 @@ CREATE TABLE prices (
 * ===================
 */
 
+INSERT INTO permissions 
+	(id,name) 
+VALUES 
+	(NULL,'Client'),
+	(NULL,'CEO'),
+	(NULL,'System Admin'),
+	(NULL,'Archive'),
+	(NULL,'Sells Manager'),
+	(NULL,'Customer Relationship'),
+	(NULL,'Customer Service'),
+	(NULL,'Customer Case');
+
 INSERT INTO purchase_type 
 	(id,name) 
 VALUES 
@@ -273,15 +292,15 @@ VALUES
 INSERT INTO users 
 	(username,password,permission) 
 VALUES 
-	('dan','dan',0),
-	('sara','sara',0),
-	('avi','avi',1),
-	('dor','dor',2),
-	('shir','shir',3),
-	('dana','dana',4),
-	('ilan','ilan',5),
-	('liat','liat',6),
-	('shula','shula',7);
+	('dan','dan',1),
+	('sara','sara',1),
+	('avi','avi',2),
+	('dor','dor',3),
+	('shir','shir',4),
+	('dana','dana',5),
+	('ilan','ilan',6),
+	('liat','liat',7),
+	('shula','shula',8);
 
 INSERT INTO clients
 	(id,first_name,last_name,phone,email,username)

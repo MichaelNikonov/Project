@@ -1,0 +1,90 @@
+package Server;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+public final class Database {
+
+	private Connection _conn;
+	
+	private PreparedStatement 
+		_getUser, _getUsers, 
+		_getClientById, _getClientByUsername, _getClientByName,
+		_getEmployeeById, _getEmployeeByUsername, _getEmployeeByPosition, 
+		_getLocations, _getImages, _getComplaints, 
+		_getClientPurchases, _getClientSearchHistory;
+	
+	/**
+	 * <b>Database constructor</b><br>
+	 * Create sql connection object and prepared statements.
+	 * @param sqlHost
+	 * @param sqlDatabase
+	 * @param sqlUser
+	 * @param sqlPassword
+	 */
+	public Database(String sqlHost, String sqlDatabase, String sqlUser, 
+			String sqlPassword) {
+		try {
+			// Create main connection object
+			_conn = DriverManager.getConnection(
+					"jdbc:mysql://" + sqlHost + "/" + sqlDatabase,
+					sqlUser, sqlPassword);
+			
+			// Create prepared statements
+			
+			// User
+			_getUser = _conn.prepareStatement(
+					"SELECT * FROM users " +
+					"WHERE username = ? AND password = ?");
+			_getUsers = _conn.prepareStatement(
+					"SELECT * FROM users");
+			
+			// Client
+			_getClientById = _conn.prepareStatement(
+					"SELECT * FROM clients " +
+					"WHERE id = ?");
+			
+			_getClientByUsername = _conn.prepareStatement(
+					"SELECT * FROM clients " +
+					"WHERE username = ?");
+			
+			_getClientByName = _conn.prepareStatement(
+					"SELECT * FROM clients " +
+					"WHERE first_name = ? OR last_name = ?");
+			
+			// Employee
+			_getEmployeeById = _conn.prepareStatement(
+					"SELECT * FROM employees INNER JOIN employee_type " +
+					"WHERE employees.id = ?");
+			
+			_getEmployeeByUsername = _conn.prepareStatement(
+					"SELECT * FROM employees INNER JOIN employee_type " +
+					"WHERE employees.username = ?");
+			
+			_getEmployeeByPosition = _conn.prepareStatement(
+					"SELECT * FROM employees INNER JOIN employee_type " +
+					"WHERE employee_type.name = ?");
+			
+		} catch (SQLException e) {
+			_conn = null;
+			// handle error
+		}
+	}
+	
+	public ArrayList<User> getUsers(String username, String password) {
+		try {
+			_getUser.setString(1, username);
+			_getUser.setString(2, password);
+			ResultSet rs = _getUser.executeQuery();
+			ArrayList<User> res = new ArrayList<User>();
+			while (rs.next()) {
+				res.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3)));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			return null;
+		}
+	}
+	
+}

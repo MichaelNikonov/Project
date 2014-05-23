@@ -1,0 +1,23 @@
+package Server;
+
+import javax.swing.*;
+
+public class ServerMain {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		JFrame win = new JFrame("Server");
+		
+		win.add(new TextField("Tag","","#####"));
+		
+		win.pack();
+		
+		win.setVisible(true);
+
+	}
+
+}

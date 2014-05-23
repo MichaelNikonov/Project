@@ -1,0 +1,22 @@
+package Server;
+
+public class User {
+	
+	private int _permission;
+	private String _username;
+	private String _password;
+	
+	public User(String username, String password, int permission) {
+		_permission = permission;
+		_username = username;
+		_password = password;
+	}
+	
+	public int getPermissino() { return _permission; }
+	public String getUsername() { return _username; }
+	public String getPassword() { return _password; }
+	
+	public void setUsername(String value) { _username = value; }
+	public void setPassword(String value) { _password = value; }
+
+}

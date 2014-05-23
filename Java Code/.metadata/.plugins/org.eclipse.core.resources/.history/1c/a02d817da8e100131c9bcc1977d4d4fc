@@ -1,0 +1,35 @@
+package Server;
+
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.text.*;
+
+public class TextField extends JPanel {
+
+	private JFormattedTextField _input;
+	private JLabel _description;
+	
+	public TextField(String desc, String value, String format) {
+		this.setLayout(new FlowLayout());
+		_description = new JLabel(desc);
+		_input = new JFormattedTextField(createFormat(format));
+		_input.setText(value);
+		this.add(_description);
+		this.add(_input);
+	}
+	
+	/**
+	 * createFormat
+	 * @param String format
+	 * @return a mask formatter for JFormattedTextField
+	 */
+	private MaskFormatter createFormat(String format) {
+		MaskFormatter formatter = null;
+		try {
+			formatter = new MaskFormatter(format); 
+		} catch (java.text.ParseException e) {
+			// Bad format
+		}
+		return formatter;
+	}
+}

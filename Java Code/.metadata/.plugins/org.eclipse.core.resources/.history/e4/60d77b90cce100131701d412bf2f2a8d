@@ -1,0 +1,20 @@
+package Server;
+
+import java.sql.*;
+
+public final class Database {
+
+	private Connection _conn;
+	
+	public Database(String sqlHost, String sqlDatabase, String sqlUser, String sqlPassword) {
+		try {
+			_conn = DriverManager.getConnection(
+					"jdbc:mysql://" + sqlHost + "/" + sqlDatabase,
+					sqlUser, sqlPassword);
+		} catch (SQLException e) {
+			_conn = null;
+			// handle error
+		}
+	}
+	
+}
