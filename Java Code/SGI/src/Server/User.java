@@ -1,7 +1,7 @@
 package Server;
 
 public class User {
-	
+	// comment
 	private Permission _permission;
 	private String _username;
 	private String _password;
