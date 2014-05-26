@@ -91,7 +91,6 @@ CREATE TABLE images (
 	id INT NOT NULL AUTO_INCREMENT,
 	location INT NOT NULL,
 	timedate DATETIME NOT NULL,
-	file VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (location) REFERENCES locations(id)
 );
@@ -104,7 +103,6 @@ CREATE TABLE layer_type (
 
 CREATE TABLE layers (
 	id INT NOT NULL AUTO_INCREMENT,
-	file VARCHAR(255) NOT NULL,
 	image_id INT NOT NULL,
 	l_type INT NOT NULL,
 	PRIMARY KEY (id),
@@ -149,15 +147,15 @@ CREATE TABLE complaint_type (
 
 CREATE TABLE complaints (
 	id INT NOT NULL AUTO_INCREMENT,
-	employee_id INT NOT NULL,
+	employee_id INT,
 	client_id INT NOT NULL,
 	c_type INT NOT NULL,
 	title VARCHAR(255),
 	content TEXT NOT NULL,
-	reply TEXT NOT NULL,
-	compensation FLOAT NOT NULL,
+	reply TEXT,
+	compensation FLOAT,
 	send_timedate DATETIME NOT NULL,
-	reply_timedate DATETIME NOT NULL,
+	reply_timedate DATETIME,
 	PRIMARY KEY (id),
 	FOREIGN KEY (employee_id) REFERENCES employees(id),
 	FOREIGN KEY (client_id) REFERENCES clients(id),

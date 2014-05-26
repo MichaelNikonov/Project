@@ -3,6 +3,8 @@ package Server;
 import java.sql.*;
 import java.util.ArrayList;
 
+import SGIEntities.*;
+
 public final class Database {
 
 	private Connection _conn;

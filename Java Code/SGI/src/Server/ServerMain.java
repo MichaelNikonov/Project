@@ -2,6 +2,8 @@ package Server;
 
 import java.util.ArrayList;
 
+import SGIEntities.*;
+
 public class ServerMain {
 
 	/**
