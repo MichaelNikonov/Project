@@ -1,12 +1,12 @@
 package SGIEntities;
 
-public class Layer {
+public class Layer implements ILayer {
 
 	private int _id;
 	private int _imageid;
-	private LayerType _type;
+	private ILayerType _type;
 	
-	public Layer(int id, int imageid, LayerType type) {
+	public Layer(int id, int imageid, ILayerType type) {
 		_id = id;
 		_imageid = imageid;
 		_type = type;
@@ -14,6 +14,6 @@ public class Layer {
 	
 	public int getId() { return _id; }
 	public int getImageId() { return _imageid; }
-	public LayerType getType() { return _type; }
+	public ILayerType getType() { return _type; }
 	
 }

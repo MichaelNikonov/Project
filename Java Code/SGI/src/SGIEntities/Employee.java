@@ -1,13 +1,13 @@
 package SGIEntities;
 
-public class Employee {
+public class Employee implements IEmployee {
 
 	private int _id;
 	private String _firstName, _lastName, _phone, _email, _number, _username;
-	private EmployeeType _type;
+	private IEmployeeType _type;
 	
 	public Employee(int id, String firstName, String lastName, String phone, 
-			String email,String number, EmployeeType type, String username) {
+			String email,String number, IEmployeeType type, String username) {
 		_id = id;
 		_firstName = firstName;
 		_lastName = lastName;
@@ -24,7 +24,7 @@ public class Employee {
 	public String getPhone() { return _phone; }
 	public String getEmail() { return _email; }
 	public String getNumber() { return _number; }
-	public EmployeeType getType() { return _type; }
+	public IEmployeeType getType() { return _type; }
 	public String getUsername() { return _username; }
 
 }

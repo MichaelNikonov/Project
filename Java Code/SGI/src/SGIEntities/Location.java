@@ -1,6 +1,6 @@
 package SGIEntities;
 
-public class Location {
+public class Location implements ILocation {
  
 	private int _id, _x, _y;
 	private String _name;

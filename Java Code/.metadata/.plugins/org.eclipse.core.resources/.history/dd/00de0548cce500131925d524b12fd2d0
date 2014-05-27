@@ -1,0 +1,12 @@
+package SGIEntities;
+
+import java.util.Date;
+
+public interface IPurchase {
+	public int getId() { return _id; }
+	public SGIImage getImage() { return _image; }
+	public Client getClient() { return _client; }
+	public PurchaseType getType() { return _type; }
+	public float getPrice() { return _price; }
+	public Date getDateTime() { return _datetime; }
+}

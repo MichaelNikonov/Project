@@ -2,16 +2,16 @@ package SGIEntities;
 
 import java.util.Date;
 
-public class Purchase {
+public class Purchase implements IPurchase {
 
 	private int _id;
 	private SGIImage _image;
-	private Client _client;
-	private PurchaseType _type;
+	private IClient _client;
+	private IPurchaseType _type;
 	private float _price;
 	private Date _datetime;
 	
-	public Purchase(int id, SGIImage img, Client clnt, PurchaseType type, 
+	public Purchase(int id, SGIImage img, IClient clnt, IPurchaseType type, 
 			float price, Date dt) {
 		_id = id;
 		_image = img;
@@ -23,8 +23,8 @@ public class Purchase {
 	
 	public int getId() { return _id; }
 	public SGIImage getImage() { return _image; }
-	public Client getClient() { return _client; }
-	public PurchaseType getType() { return _type; }
+	public IClient getClient() { return _client; }
+	public IPurchaseType getType() { return _type; }
 	public float getPrice() { return _price; }
 	public Date getDateTime() { return _datetime; }
 	

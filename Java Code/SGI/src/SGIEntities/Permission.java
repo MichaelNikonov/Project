@@ -1,6 +1,6 @@
 package SGIEntities;
 
-public class Permission {
+public class Permission implements IPermission {
 
 	private int _id;
 	private String _name;

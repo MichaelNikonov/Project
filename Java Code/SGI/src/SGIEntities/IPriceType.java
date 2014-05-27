@@ -1,0 +1,6 @@
+package SGIEntities;
+
+public interface IPriceType {
+	int getId();
+	String getName();	
+}

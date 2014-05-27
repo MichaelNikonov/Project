@@ -1,6 +1,6 @@
 package SGIEntities;
 
-public class LayerType {
+public class LayerType implements ILayerType {
 
 	private int _id;
 	private String _name;
@@ -12,5 +12,5 @@ public class LayerType {
 	
 	public int getId() { return _id; }
 	public String getName() { return _name; }
-
+	
 }

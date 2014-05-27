@@ -1,0 +1,6 @@
+package SGIEntities;
+
+public interface Permission {
+	int getId();
+	String getName();	
+}

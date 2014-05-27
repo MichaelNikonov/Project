@@ -2,13 +2,13 @@ package SGIEntities;
 
 import java.util.Date;
 
-public class SGIImage {
+public class SGIImage implements ISGIImage {
 
 	private int _id;
 	private Location _location;
 	private Date _datetime;
 	
-	public SGIImage(int id, Location loc, Date dt, String filename) {
+	public SGIImage(int id, Location loc, Date dt) {
 		_id = id;
 		_location = loc;
 		_datetime = dt;

@@ -1,6 +1,6 @@
 package SGIEntities;
 
-public class ComplaintType {
+public class ComplaintType implements IComplaintType {
 
 	private int _id;
 	private String _name;

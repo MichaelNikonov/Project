@@ -1,6 +1,6 @@
 package SGIEntities;
 
-public class PurchaseType {
+public class PurchaseType implements IPurchaseType {
 
 	private int _id;
 	private String _name;

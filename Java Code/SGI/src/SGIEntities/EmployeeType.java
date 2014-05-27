@@ -1,6 +1,6 @@
 package SGIEntities;
 
-public class EmployeeType {
+public class EmployeeType implements IEmployeeType {
 
 	private int _id;
 	private String _name;

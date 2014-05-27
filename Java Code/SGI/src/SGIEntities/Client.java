@@ -1,6 +1,6 @@
 package SGIEntities;
 
-public class Client {
+public class Client implements IClient {
 
 	private int _id;
 	private String _firstName, _lastName, _phone, _email, _username;
