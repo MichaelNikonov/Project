@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="40" version="2.0">
+<workbench progressCount="45" version="2.0">
 <workbenchAdvisor/>
 <window height="728" maximized="true" width="1024" x="25" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -36,24 +36,77 @@
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
+<part id="3"/>
+<part id="4"/>
+<part id="5"/>
+<part id="6"/>
+<part id="7"/>
+<part id="8"/>
+<part id="9"/>
+<part id="10"/>
+<part id="11"/>
+<part id="12"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Database.java" partName="Database.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/Server/Database.java" title="Database.java" tooltip="SGI/src/Server/Database.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/Server/Database.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="12247" selectionTopPixel="6149"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="11374" selectionTopPixel="419"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ServerMain.java" partName="ServerMain.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/Server/ServerMain.java" title="ServerMain.java" tooltip="SGI/src/Server/ServerMain.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ServerMain.java" partName="ServerMain.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/Server/ServerMain.java" title="ServerMain.java" tooltip="SGI/src/Server/ServerMain.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/Server/ServerMain.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="132" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="686" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SGIImage.java" partName="SGIImage.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/SGIEntities/SGIImage.java" title="SGIImage.java" tooltip="SGI/src/SGIEntities/SGIImage.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/SGIEntities/SGIImage.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="258" selectionTopPixel="0"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Complaint.java" partName="Complaint.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/SGIEntities/Complaint.java" title="Complaint.java" tooltip="SGI/src/SGIEntities/Complaint.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/SGIEntities/Complaint.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="501" selectionTopPixel="84"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationGUI.java" partName="ConfigurationGUI.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/Server/ConfigurationGUI.java" title="ConfigurationGUI.java" tooltip="SGI/src/Server/ConfigurationGUI.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/Server/ConfigurationGUI.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainClient.java" partName="MainClient.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/SGIClient/MainClient.java" title="MainClient.java" tooltip="SGI/src/SGIClient/MainClient.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/SGIClient/MainClient.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AbstractClient.java" partName="AbstractClient.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/OCSFClient/AbstractClient.java" title="AbstractClient.java" tooltip="SGI/src/OCSFClient/AbstractClient.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/OCSFClient/AbstractClient.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="207" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AdaptableClient.java" partName="AdaptableClient.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/OCSFClient/AdaptableClient.java" title="AdaptableClient.java" tooltip="SGI/src/OCSFClient/AdaptableClient.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/OCSFClient/AdaptableClient.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="208" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ObservableClient.java" partName="ObservableClient.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGI/src/OCSFClient/ObservableClient.java" title="ObservableClient.java" tooltip="SGI/src/OCSFClient/ObservableClient.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGI/src/OCSFClient/ObservableClient.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="208" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ServerMain.java" partName="ServerMain.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGIServer/src/server/main/ServerMain.java" title="ServerMain.java" tooltip="SGIServer/src/server/main/ServerMain.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGIServer/src/server/main/ServerMain.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="53" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationGUI.java" partName="ConfigurationGUI.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGIServer/src/server/gui/ConfigurationGUI.java" title="ConfigurationGUI.java" tooltip="SGIServer/src/server/gui/ConfigurationGUI.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGIServer/src/server/gui/ConfigurationGUI.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationController.java" partName="ConfigurationController.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGIServer/src/server/controllers/ConfigurationController.java" title="ConfigurationController.java" tooltip="SGIServer/src/server/controllers/ConfigurationController.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGIServer/src/server/controllers/ConfigurationController.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationGUI.java" partName="ConfigurationGUI.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGIClient/src/client/gui/ConfigurationGUI.java" title="ConfigurationGUI.java" tooltip="SGIClient/src/client/gui/ConfigurationGUI.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGIClient/src/client/gui/ConfigurationGUI.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationController.java" partName="ConfigurationController.java" path="C:/Users/Ron/Documents/GitHub/Project/Java Code/SGIClient/src/client/controllers/ConfigurationController.java" title="ConfigurationController.java" tooltip="SGIClient/src/client/controllers/ConfigurationController.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SGIClient/src/client/controllers/ConfigurationController.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
+<view id="org.eclipse.jdt.ui.TypeHierarchy" partName="Type Hierarchy">
+<viewState hidefields="false" hidelocaltypes="false" hidenonpublic="false" hidestatic="false" input="=OCSF/src&lt;server" link_editors="0" mv_vertical_scroll="0" orientation="3" qualified_names="0" ratio="350" selection="=OCSF/C:\/Program Files \(x86)\/Java\/jre7\/lib\/rt.jar&lt;java.lang(Object.class[Object" showinherited="false" sortbydefiningtype="false" vertical_scroll="0" view="2" workingSetName=""/>
+</view>
 <view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
 <viewState/>
 </view>
@@ -78,9 +131,7 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings (8 items)"/>
-<category IMemento.internal.id="Warnings"/>
-<category IMemento.internal.id="Errors"/>
+<category IMemento.internal.id="Warnings (13 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="75" org.eclipse.ui.ide.markerType="75" org.eclipse.ui.ide.pathField="100" org.eclipse.ui.ide.resourceField="75" org.eclipse.ui.ide.severityAndDescriptionField="250"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -148,7 +199,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.PackageExplorer" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jst.j2ee.internal.perspective.J2EEPerspective" id="org.eclipse.jst.j2ee.J2EEPerspective" label="Java EE"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -343,6 +394,7 @@
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <view id="org.eclipse.jdt.ui.PackageExplorer"/>
+<view id="org.eclipse.jdt.ui.TypeHierarchy"/>
 <view id="org.eclipse.ui.views.ProblemView"/>
 <view id="org.eclipse.jdt.ui.JavadocView"/>
 <view id="org.eclipse.jdt.ui.SourceView"/>
@@ -355,7 +407,7 @@
 <info folder="true" part="left">
 <folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
-<page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
+<page content="org.eclipse.jdt.ui.TypeHierarchy" label="Type Hierarchy"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.junit.ResultView" label="LabelNotFound"/>
@@ -363,6 +415,7 @@
 <page content="org.eclipse.wb.core.PaletteView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="1"/>
 </presentation>
 </folder>
 </info>
@@ -425,145 +478,27 @@
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/Server/Database.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/Server/ServerMain.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/SGIEntities/Permission.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/SGIEntities/Employee.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/SGIEntities/SGIImage.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/Server/Database.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/SGIEntities/Complaint.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/Server/ConfigurationGUI.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/Client/MainClient.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/SGIClient/MainClient.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/OCSFClient/AbstractClient.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/OCSFClient/AdaptableClient.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/OCSFClient/ObservableClient.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OCSF/src/server/AbstractServer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OCSF/src/ocsf/server/AbstractServer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGI/src/SGIServer/ServerMain.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OCSF/src/server/copy/AbstractServer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OCSF/src/server/AbstractServer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGIServer/src/SGIServer/ServerMain.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGIServer/src/server/main/ServerMain.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGIServer/src/server/gui/ConfigurationGUI.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGIServer/src/server/controllers/ConfigurationController.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGIClient/src/client/gui/ConfigurationGUI.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SGIClient/src/client/controllers/ConfigurationController.java"/>
 </editors>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="207" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="8724" y="0"/>
-</item>
-<item historyLabel="Employee.java" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="8724" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="1456" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="9945" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="684" y="0"/>
-</item>
-<item historyLabel="Permission.java" index="2">
-<position info="not_deleted" x="193" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="684" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="9945" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="10346" y="12"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="9094" y="11"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="10873" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="10346" y="12"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="388" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="10346" y="12"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="11373" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="388" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="619" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="11373" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="3060" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="10557" y="0"/>
-</item>
-<item historyLabel="SGIImage.java" index="4">
-<position info="not_deleted" x="258" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="619" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="11975" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="619" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="619" y="0"/>
-</item>
-<item historyLabel="SGIImage.java" index="4">
-<position info="not_deleted" x="258" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="11975" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="3709" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="10927" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="619" y="0"/>
-</item>
-<item historyLabel="SGIImage.java" index="4">
-<position info="not_deleted" x="258" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="11969" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="12341" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="619" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="364" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="12341" y="0"/>
-</item>
-<item historyLabel="Database.java" index="0">
-<position info="not_deleted" x="11550" y="0"/>
-</item>
-<item historyLabel="ServerMain.java" index="1">
-<position info="not_deleted" x="132" y="0"/>
-</item>
 <item historyLabel="Database.java" index="0">
 <position info="not_deleted" x="12282" y="0"/>
 </item>
@@ -576,8 +511,143 @@
 <item historyLabel="Database.java" index="0">
 <position info="not_deleted" x="12247" y="0"/>
 </item>
-<item active="true" historyLabel="ServerMain.java" index="1">
+<item historyLabel="ServerMain.java" index="1">
 <position info="not_deleted" x="132" y="0"/>
+</item>
+<item historyLabel="SGIImage.java" index="2">
+<position info="not_deleted" x="258" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="1">
+<position info="not_deleted" x="132" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="13135" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14022" y="0"/>
+</item>
+<item historyLabel="Complaint.java" index="4">
+<position info="not_deleted" x="501" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14446" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14063" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14436" y="0"/>
+</item>
+<item historyLabel="Complaint.java" index="4">
+<position info="not_deleted" x="501" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14436" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14436" y="0"/>
+</item>
+<item historyLabel="Complaint.java" index="4">
+<position info="not_deleted" x="501" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14436" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14376" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14087" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14228" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14015" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="1">
+<position info="not_deleted" x="132" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="1">
+<position info="not_deleted" x="508" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="1">
+<position info="not_deleted" x="686" y="0"/>
+</item>
+<item historyLabel="Complaint.java" index="4">
+<position info="not_deleted" x="501" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="14015" y="0"/>
+</item>
+<item historyLabel="ConfigurationGUI.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Database.java" index="3">
+<position info="not_deleted" x="11374" y="0"/>
+</item>
+<item historyLabel="MainClient.java" index="6">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="MainClient.java" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AbstractClient.java" index="8">
+<position info="not_deleted" x="207" y="0"/>
+</item>
+<item historyLabel="AdaptableClient.java" index="9">
+<position info="not_deleted" x="206" y="0"/>
+</item>
+<item historyLabel="ObservableClient.java" index="10">
+<position info="not_deleted" x="208" y="0"/>
+</item>
+<item historyLabel="AdaptableClient.java" index="9">
+<position info="not_deleted" x="208" y="0"/>
+</item>
+<item historyLabel="AbstractServer.java" index="11">
+<position/>
+</item>
+<item historyLabel="AbstractServer.java" index="12">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AbstractServer.java" index="11">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="13">
+<position info="not_deleted" x="100" y="0"/>
+</item>
+<item historyLabel="AbstractServer.java" index="14">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="13">
+<position info="not_deleted" x="100" y="0"/>
+</item>
+<item historyLabel="AbstractServer.java" index="15">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="13">
+<position info="not_deleted" x="100" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="16">
+<position info="not_deleted" x="100" y="0"/>
+</item>
+<item historyLabel="ServerMain.java" index="17">
+<position info="not_deleted" x="53" y="0"/>
+</item>
+<item historyLabel="ConfigurationGUI.java" index="18">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="ConfigurationController.java" index="19">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="ConfigurationGUI.java" index="20">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="ConfigurationController.java" index="21">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -597,50 +667,50 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationController.java" tooltip="SGIClient/src/client/controllers/ConfigurationController.java">
+<persistable path="/SGIClient/src/client/controllers/ConfigurationController.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationGUI.java" tooltip="SGIClient/src/client/gui/ConfigurationGUI.java">
+<persistable path="/SGIClient/src/client/gui/ConfigurationGUI.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationController.java" tooltip="SGIServer/src/server/controllers/ConfigurationController.java">
+<persistable path="/SGIServer/src/server/controllers/ConfigurationController.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationGUI.java" tooltip="SGIServer/src/server/gui/ConfigurationGUI.java">
+<persistable path="/SGIServer/src/server/gui/ConfigurationGUI.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AbstractServer.java" tooltip="OCSF/src/server/AbstractServer.java">
+<persistable path="/OCSF/src/server/AbstractServer.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AbstractServer.java" tooltip="OCSF/src/server/copy/AbstractServer.java">
+<persistable path="/OCSF/src/server/copy/AbstractServer.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ServerMain.java" tooltip="SGI/src/SGIServer/ServerMain.java">
+<persistable path="/SGI/src/SGIServer/ServerMain.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ObservableClient.java" tooltip="SGI/src/OCSFClient/ObservableClient.java">
+<persistable path="/SGI/src/OCSFClient/ObservableClient.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AdaptableClient.java" tooltip="SGI/src/OCSFClient/AdaptableClient.java">
+<persistable path="/SGI/src/OCSFClient/AdaptableClient.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AbstractClient.java" tooltip="SGI/src/OCSFClient/AbstractClient.java">
+<persistable path="/SGI/src/OCSFClient/AbstractClient.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainClient.java" tooltip="SGI/src/Client/MainClient.java">
+<persistable path="/SGI/src/Client/MainClient.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ConfigurationGUI.java" tooltip="SGI/src/Server/ConfigurationGUI.java">
+<persistable path="/SGI/src/Server/ConfigurationGUI.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Complaint.java" tooltip="SGI/src/SGIEntities/Complaint.java">
+<persistable path="/SGI/src/SGIEntities/Complaint.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SGIImage.java" tooltip="SGI/src/SGIEntities/SGIImage.java">
 <persistable path="/SGI/src/SGIEntities/SGIImage.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Employee.java" tooltip="SGI/src/SGIEntities/Employee.java">
 <persistable path="/SGI/src/SGIEntities/Employee.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Permission.java" tooltip="SGI/src/SGIEntities/Permission.java">
-<persistable path="/SGI/src/SGIEntities/Permission.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ServerMain.java" tooltip="SGI/src/Server/ServerMain.java">
-<persistable path="/SGI/src/Server/ServerMain.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Database.java" tooltip="SGI/src/Server/Database.java">
-<persistable path="/SGI/src/Server/Database.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IPrice.java" tooltip="SGI/src/SGIEntities/IPrice.java">
-<persistable path="/SGI/src/SGIEntities/IPrice.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Price.java" tooltip="SGI/src/SGIEntities/Price.java">
-<persistable path="/SGI/src/SGIEntities/Price.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IEmployeeType.java" tooltip="SGI/src/SGIEntities/IEmployeeType.java">
-<persistable path="/SGI/src/SGIEntities/IEmployeeType.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IPriceType.java" tooltip="SGI/src/SGIEntities/IPriceType.java">
-<persistable path="/SGI/src/SGIEntities/IPriceType.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EmployeeType.java" tooltip="SGI/src/SGIEntities/EmployeeType.java">
-<persistable path="/SGI/src/SGIEntities/EmployeeType.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PriceType.java" tooltip="SGI/src/SGIEntities/PriceType.java">
-<persistable path="/SGI/src/SGIEntities/PriceType.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ISubscriptionPurchase.java" tooltip="SGI/src/SGIEntities/ISubscriptionPurchase.java">
-<persistable path="/SGI/src/SGIEntities/ISubscriptionPurchase.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SubscriptionPurchases.java" tooltip="SGI/src/SGIEntities/SubscriptionPurchases.java">
-<persistable path="/SGI/src/SGIEntities/SubscriptionPurchases.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ISubscription.java" tooltip="SGI/src/SGIEntities/ISubscription.java">
-<persistable path="/SGI/src/SGIEntities/ISubscription.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Subscription.java" tooltip="SGI/src/SGIEntities/Subscription.java">
-<persistable path="/SGI/src/SGIEntities/Subscription.java"/>
 </file>
 </mruList>
 </workbench>
