@@ -11,12 +11,20 @@ public final class Database {
 
 	private Connection _conn;
 	
+	/*
+	 * A list of all the prepared statements to use with the database
+	 */
 	private PreparedStatement 
-		_getPermissions,
-		_getUser, _getUsers, 
+		_getPermissions, _getPermission,
+		_getUser, _getUsers, _setUserOnLine, _removeUserOnLine, 
+		_getUnusedLoggedUsers, _removeUnusedLoggedUsers,
 		_getClientById, _getClientByUsername, _getClientByName, _getClients,
-		_getEmployeeById, _getEmployeeByUsername, _getEmployeeByPosition, _getEmployees, 
-		_getLocations, _getImage, _getImages,_searchImages, _getComplaints, 
+		_getEmployeeById, _getEmployeeByUsername, _getEmployeeByPosition, 
+		_getEmployees, _getEmployeeType, _getEmployeeTypes,  
+		_getLocations, _getImage, _getImages,_searchImages,
+		_getLayers, _getLayer, _getLayerType, _getLayerTypes, _getImageLayers,
+		_getLayersByType,
+		_getComplaints, _getUnseenComplaints, _getComplaintType, _getComplaintTypes,  
 		_getClientPurchases, _getClientSearchHistory;
 	
 	public Database(String sqlHost, String sqlDatabase, String sqlUser, 
@@ -32,7 +40,11 @@ public final class Database {
 			// Create prepared statements
 			
 			// Permissions, Types...
-			_getPermissions = _conn.prepareStatement("SELECT * FROM permissions");
+			_getPermissions = _conn.prepareStatement(
+					"SELECT * FROM permissions");
+			_getPermission = _conn.prepareStatement(
+					"SELECT * FROM permissions " + 
+					"WHERE id = ?");
 			
 			// User
 			_getUser = _conn.prepareStatement(
@@ -42,19 +54,30 @@ public final class Database {
 			_getUsers = _conn.prepareStatement(
 					"SELECT * FROM users INNER JOIN permissions " +
 					"ON users.permission = permissions.id");
+			_setUserOnLine = _conn.prepareStatement(
+					"INSERT INTO online_users " +
+					"(username, timedate, ip) " +
+					"VALUES " +
+					"(?,NOW(),?)");
+			_removeUserOnLine = _conn.prepareStatement(
+					"DELETE FROM online_users " +
+					"WHERE username = ?");
+			_getUnusedLoggedUsers = _conn.prepareStatement(
+					"SELECT * FROM online_users " +
+					"WHERE TIMESTAMPDIFF(MINUTE,timedate,NOW()) > ?");
+			_removeUnusedLoggedUsers = _conn.prepareStatement(
+					"DELETE FROM online_users " +
+					"WHERE TIMESTAMPDIFF(MINUTE,timedate,NOW()) > ?");
 			
 			// Client
 			_getClients = _conn.prepareStatement(
 					"SELECT * FROM clients");
-			
 			_getClientById = _conn.prepareStatement(
 					"SELECT * FROM clients " +
 					"WHERE id = ?");
-			
 			_getClientByUsername = _conn.prepareStatement(
 					"SELECT * FROM clients " +
 					"WHERE username = ?");
-			
 			_getClientByName = _conn.prepareStatement(
 					"SELECT * FROM clients " +
 					"WHERE first_name = ? OR last_name = ?");
@@ -63,21 +86,23 @@ public final class Database {
 			_getEmployees = _conn.prepareStatement(
 					"SELECT * FROM employees INNER JOIN employee_type " +
 					"ON employees.e_type = employee_type.id");
-			
 			_getEmployeeById = _conn.prepareStatement(
 					"SELECT * FROM employees INNER JOIN employee_type " +
 					"ON employees.e_type = employee_type.id " +
 					"WHERE employees.id = ?");
-			
 			_getEmployeeByUsername = _conn.prepareStatement(
 					"SELECT * FROM employees INNER JOIN employee_type " +
 					"ON employees.e_type = employee_type.id " +
 					"WHERE employees.username = ?");
-			
 			_getEmployeeByPosition = _conn.prepareStatement(
 					"SELECT * FROM employees INNER JOIN employee_type " +
 					"ON employees.e_type = employee_type.id " +
 					"WHERE employee_type.name = ?");
+			_getEmployeeTypes = _conn.prepareStatement(
+					"SELECT * FROM employee_type");
+			_getEmployeeType = _conn.prepareStatement(
+					"SELECT * FROM employee_type " +
+					"WHERE id = ?");
 			
 			// Locations
 			_getLocations = _conn.prepareStatement(
@@ -88,30 +113,58 @@ public final class Database {
 					"SELECT * FROM images INNER JOIN locations " +
 					"ON images.location = locations.id " +
 					"WHERE id = ?");
-			
 			_getImages = _conn.prepareStatement(
 					"SELECT * FROM images INNER JOIN locations " +
 					"ON images.location = locations.id");
-			
 			_searchImages = _conn.prepareStatement(
 					"SELECT * FROM images INNER JOIN locations " +
 					"ON images.location = locations.id " +
 					"WHERE locations.name = ? OR timedate = ?");
 			
+			// Layers
+			_getLayerTypes = _conn.prepareStatement(
+					"SELECT * FROM layer_type");
+			_getLayerType = _conn.prepareStatement(
+					"SELECT * FROM layer_type " +
+					"WHERE id = ?");
+			_getLayers = _conn.prepareStatement(
+					"SELECT * FROM layers");
+			_getLayersByType = _conn.prepareStatement(
+					"SELECT * FROM layers " +
+					"WHERE l_type = ?");
+			_getLayer = _conn.prepareStatement(
+					"SELECT * FROM layers " +
+					"WHERE id = ?");
+			_getImageLayers = _conn.prepareStatement(
+					"SELECT * FROM layers " +
+					"WHERE image_id = ?");
+			
 			// Complaints
 			_getComplaints = _conn.prepareStatement(
-					"SELECT * FROM complaints INNER JOIN complaint_type " +
-					"ON complaints.c_type = complaint_type.id");
+					"SELECT * FROM complaints");
+			_getUnseenComplaints = _conn.prepareStatement(
+					"SELECT * FROM complaints " +
+					"WHERE employee_id = NULL");
+			_getComplaintTypes = _conn.prepareStatement(
+					"SELECT * FROM complaint_type");
+			_getComplaintType = _conn.prepareStatement(
+					"SELECT * FROM complaint_type " +
+					"WHERE id = ?");
 			
 			
 		} catch (SQLException | InstantiationException | IllegalAccessException 
 				| ClassNotFoundException e) {
 			_conn = null;
-			System.out.println(e.getMessage());
+			System.out.println("Datebase CONSTRUCTOR: " + e.getMessage());
 			// handle error
 		}
 	}
 	
+	/**
+	 * Gets a result set and returns the number of records in the result set
+	 * @param rs
+	 * @return Number of records in the result set
+	 */
 	private int getResultSetCount(ResultSet rs) {
 		if (rs==null) return 0;
 		int rowCount = 0;
@@ -128,12 +181,24 @@ public final class Database {
 		
 	}
 	
+	/**
+	 * Get a string that represent a DateTime value from MySql and returns
+	 * a Java Date object
+	 * @param sqlvalue
+	 * @return Java Date object
+	 */
 	private String sqlDateTimeToJavaDate(String sqlvalue) {
 		String res = sqlvalue.replace("-", "/");
 		res = res.substring(0, res.length()-3);
 		return res;
 	}
 	
+	/**
+	 * Get a Java Date object and return a string value representing
+	 * that Date object in MySql DateTime format
+	 * @param jvalue
+	 * @return MySql DateTime string
+	 */
 	private String javaDateToSqlDateTime(Date jvalue) {
 		String temp = jvalue.toString();
 		String year = temp.substring(24,28);
@@ -154,7 +219,54 @@ public final class Database {
 		if (temp.substring(4,7).equals("Dec")) month = "12";
 		return (year + "-" + month + "-" + day + " " + time); 
 	}
+
+	// Permissions
+	/**
+	 * Get all the available permissions in the system
+	 * @return An ArrayList of the permissions
+	 */
+	public ArrayList<Permission> getPermissions() {
+		try {
+			ArrayList<Permission> res = null;
+			ResultSet rs = null;
+			rs = _getPermissions.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<Permission>();
+				while (rs.next()) {
+					res.add(new Permission(rs.getInt(1), rs.getString(2)));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}		
+	}
 	
+	/**
+	 * Get a permission with s specific id
+	 * @param id
+	 * @return The permission with that id, or null of none exists
+	 */
+	public Permission getPermission(int id) {
+		try {
+			Permission res = null;
+			ResultSet rs = null;
+			_getPermission.setInt(1, id);
+			rs = _getPermission.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new Permission(rs.getInt(1), rs.getString(2));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}		
+	}
+	
+	// Users
 	public ArrayList<User> getUsers() {
 		try {
 			ArrayList<User> res = null;
@@ -198,6 +310,81 @@ public final class Database {
 		}
 	}
 	
+	public int setUserOnline(User u, String ip) {
+		try {
+			_setUserOnLine.setString(1, u.getUsername());
+			_setUserOnLine.setString(2, ip);
+			if (_setUserOnLine.executeUpdate()==1)
+				return 1;
+			else
+				return 0;
+		} catch (SQLException e) {
+			// Error code 1062 - duplicate key, means user is already online
+			if (e.getErrorCode()==1062)
+				return 2;
+			else
+				return 0;
+		}
+	}
+	
+	public boolean setUserOffline(User u) {
+		try {
+			_removeUserOnLine.setString(1, u.getUsername());
+			if (_removeUserOnLine.executeUpdate()==1)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			return false;
+		}		
+	}
+
+	/**
+	 * Removes ("log off") all the logged in users that where not active for
+	 * a specific amount of time (interval in minutes)
+	 * @param interval
+	 * @return true if any records removed
+	 */
+	public boolean removeUnusedLoggedUsers(int interval) {
+		try {
+			_removeUnusedLoggedUsers.setInt(1, interval);
+			if (_removeUnusedLoggedUsers.executeUpdate()==1)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			return false;
+		}		
+	}
+	
+	/**
+	 * Get a list of all the logged in users that where not active for
+	 * a specific amount of time (interval in minutes)
+	 * @param interval
+	 * @return ArrayList of users
+	 */
+	public ArrayList<User> getUnusedLoggedUsers(int interval) {
+		try {
+			ArrayList<User> res = null;
+			ResultSet rs = null;
+			_getUnusedLoggedUsers.setInt(1, interval);
+			rs = _getUnusedLoggedUsers.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<User>();
+				while (rs.next()) {
+					res.add(
+							new User(rs.getString(1), "", null));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	// Clients
 	public Client getClient(String username) {
 		try {
 			Client res = null;
@@ -278,25 +465,7 @@ public final class Database {
 		}
 	}
 
-	public ArrayList<Permission> getPermissions() {
-		try {
-			ArrayList<Permission> res = null;
-			ResultSet rs = null;
-			rs = _getPermissions.executeQuery();				
-			if (getResultSetCount(rs) > 0) {
-				res = new ArrayList<Permission>();
-				while (rs.next()) {
-					res.add(new Permission(rs.getInt(1), rs.getString(2)));
-				}
-			}
-			return res;
-		} catch (SQLException e) {
-			// Handle exception
-			System.out.println(e.getMessage());
-			return null;
-		}			
-	}
-
+	// Employees
 	public Employee getEmployee(int id) {
 		try {
 			Employee res = null;
@@ -382,6 +551,43 @@ public final class Database {
 		}
 	}
 
+	public ArrayList<EmployeeType> getEmployeeTypes() {
+		try {
+			ArrayList<EmployeeType> res = null;
+			ResultSet rs = null;
+			rs = _getEmployeeTypes.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<EmployeeType>();
+				while (rs.next()) {
+					res.add(new EmployeeType(rs.getInt(1), rs.getString(2)));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}				
+	}
+	
+	public EmployeeType getEmployeeType(int id) {
+		try {
+			EmployeeType res = null;
+			ResultSet rs = null;
+			_getEmployeeType.setInt(1, id);
+			rs = _getEmployeeType.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new EmployeeType(rs.getInt(1), rs.getString(2));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}				
+	}
+	
+	// Locations
 	public ArrayList<Location> getLocations() {
 		try {
 			ArrayList<Location> res = null;
@@ -401,7 +607,8 @@ public final class Database {
 			return null;
 		}
 	}
-
+	
+	// Images
 	public SGIImage getImage(int id) {
 		try {
 			SGIImage res = null;
@@ -467,6 +674,112 @@ public final class Database {
 		}
 	}
 
+	// Layers
+	public ArrayList<LayerType> getLayerTypes() {
+		try {
+			ArrayList<LayerType> res = null;
+			ResultSet rs = null;
+			rs = _getLayerTypes.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<LayerType>();
+				while (rs.next()) {
+					res.add(new LayerType(rs.getInt(1), rs.getString(2)));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}						
+	}
+	
+	public LayerType getLayerType(int id) {
+		try {
+			LayerType res = null;
+			ResultSet rs = null;
+			_getLayerType.setInt(1, id);
+			rs = _getLayerType.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new LayerType(rs.getInt(1), rs.getString(2));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println("LayerType: " + e.getMessage());
+			return null;
+		}				
+	}
+	
+	public ArrayList<Layer> getLayers() {
+		try {
+			ArrayList<Layer> res = null;
+			ResultSet rs = null;
+			rs = _getLayers.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<Layer>();
+				while (rs.next()) {
+					res.add(
+						new Layer(rs.getInt(1), rs.getInt(2), 
+								getLayerType(rs.getInt(3))));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println("GetLayers: " + e.getMessage());
+			return null;
+		}						
+		
+	}
+
+	public ArrayList<Layer> getImageLayers(int imageid) {
+		try {
+			ArrayList<Layer> res = null;
+			ResultSet rs = null;
+			_getImageLayers.setInt(1, imageid);
+			rs = _getImageLayers.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<Layer>();
+				while (rs.next()) {
+					res.add(
+						new Layer(rs.getInt(1), rs.getInt(2), 
+								getLayerType(rs.getInt(3))));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}						
+		
+	}
+	
+	public ArrayList<Layer> getLayersByType(int layertype) {
+		try {
+			ArrayList<Layer> res = null;
+			ResultSet rs = null;
+			_getLayersByType.setInt(1, layertype);
+			rs = _getLayersByType.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<Layer>();
+				while (rs.next()) {
+					res.add(
+						new Layer(rs.getInt(1), rs.getInt(2), 
+								getLayerType(rs.getInt(3))));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}						
+		
+	}
+	
+	// Complaints
 	public ArrayList<Complaint> getComplaints() {
 		try {
 			ArrayList<Complaint> res = null;
@@ -494,4 +807,115 @@ public final class Database {
 			return null;
 		}
 	}
+
+	public ArrayList<ComplaintType> getComplaintTypes() {
+		try {
+			ArrayList<ComplaintType> res = null;
+			ResultSet rs = null;
+			rs = _getImages.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<ComplaintType>();
+				while (rs.next()) {
+					res.add(new ComplaintType(rs.getInt(1), rs.getString(2)));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}		
+	}
+	
+	public ComplaintType getComplaintType(int id) {
+		try {
+			ComplaintType res = null;
+			ResultSet rs = null;
+			_getImage.setInt(1, id);
+			rs = _getImage.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ComplaintType(rs.getInt(1), rs.getString(2));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}		
+	}
+	
+	// Prices
+	public ArrayList<PriceType> getPriceTypes() {
+		try {
+			ArrayList<PriceType> res = null;
+			ResultSet rs = null;
+			rs = _getImages.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<PriceType>();
+				while (rs.next()) {
+					res.add(new PriceType(rs.getInt(1), rs.getString(2)));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}				
+	}
+	
+	public PriceType getPriceType(int id) {
+		try {
+			PriceType res = null;
+			ResultSet rs = null;
+			_getImage.setInt(1, id);
+			rs = _getImage.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new PriceType(rs.getInt(1), rs.getString(2));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}				
+	}
+
+	// Subscriptions
+	public ArrayList<SubscriptionType> getSubscriptionTypes() {
+		try {
+			ArrayList<SubscriptionType> res = null;
+			ResultSet rs = null;
+			rs = _getImages.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<SubscriptionType>();
+				while (rs.next()) {
+					res.add(new SubscriptionType(rs.getInt(1), rs.getString(2)));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}						
+	}
+	
+	public SubscriptionType geSubscriptionType(int id) {
+		try {
+			SubscriptionType res = null;
+			ResultSet rs = null;
+			_getImage.setInt(1, id);
+			rs = _getImage.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new SubscriptionType(rs.getInt(1), rs.getString(2));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}				
+	}
+			
 }

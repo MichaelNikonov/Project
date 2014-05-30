@@ -3,21 +3,21 @@ package sgi.entities;
 
 public class User implements IUser {
 	
-	private IPermission _permission;
+	private Permission _permission;
 	private String _username;
 	private String _password;
 	
-	public User(String username, String password, IPermission permission) {
+	public User(String username, String password, Permission permission) {
 		_permission = permission;
 		_username = username;
 		_password = password;
 	}
 	
-	public IPermission getPermission() { return _permission; }
+	public Permission getPermission() { return _permission; }
 	public String getUsername() { return _username; }
 	public String getPassword() { return _password; }
 	
-	public void setPermission(IPermission value) { _permission = value; }
+	public void setPermission(Permission value) { _permission = value; }
 	public void setUsername(String value) { _username = value; }
 	public void setPassword(String value) { _password = value; }
 

@@ -5,9 +5,9 @@ import java.util.Date;
 public interface IComplaint {
 	
 	int getId();
-	IEmployee getEmployee();
-	IClient getClient();
-	IComplaintType getType();
+	Employee getEmployee();
+	Client getClient();
+	ComplaintType getType();
 	String getTitle();
 	String getContent();
 	String getReply();
@@ -15,7 +15,7 @@ public interface IComplaint {
 	Date getSendDateTime();
 	Date getReplyDateTime();
 	
-	void setEmployee(IEmployee value);
+	void setEmployee(Employee value);
 	void setReply(String value);
 	void setCompensation(float value);
 	void setReplyDateTime(Date value);

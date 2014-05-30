@@ -7,6 +7,6 @@ public interface IEmployee {
 	String getPhone();
 	String getEmail();
 	String getNumber();
-	IEmployeeType getType();
+	EmployeeType getType();
 	String getUsername();
 }

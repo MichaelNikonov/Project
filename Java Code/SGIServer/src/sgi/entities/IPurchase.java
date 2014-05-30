@@ -4,9 +4,9 @@ import java.util.Date;
 
 public interface IPurchase {
 	int getId();
-	ISGIImage getImage();
-	IClient getClient();
-	IPurchaseType getType();
+	SGIImage getImage();
+	Client getClient();
+	PurchaseType getType();
 	float getPrice();
 	Date getDateTime();
 }

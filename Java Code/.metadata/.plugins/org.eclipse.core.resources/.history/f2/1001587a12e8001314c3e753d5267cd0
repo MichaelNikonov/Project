@@ -1,0 +1,17 @@
+package server.models;
+
+public class ServerConfiguration {
+
+	int _port = 5555;
+	int _maxUnusedConnectionTime = 10;
+	boolean _logoffUnUsedConnections;
+	
+	public ServerConfiguration() {}
+	
+	public ServerConfiguration(int port, int maxUnusedTime, boolean logoffUnused) {
+		_port = port;
+		_maxUnusedConnectionTime = maxUnusedTime;
+		_logoffUnUsedConnections = logoffUnused;
+	}
+	
+}

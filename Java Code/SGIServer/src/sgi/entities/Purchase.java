@@ -6,12 +6,12 @@ public class Purchase implements IPurchase {
 
 	private int _id;
 	private SGIImage _image;
-	private IClient _client;
-	private IPurchaseType _type;
+	private Client _client;
+	private PurchaseType _type;
 	private float _price;
 	private Date _datetime;
 	
-	public Purchase(int id, SGIImage img, IClient clnt, IPurchaseType type, 
+	public Purchase(int id, SGIImage img, Client clnt, PurchaseType type, 
 			float price, Date dt) {
 		_id = id;
 		_image = img;
@@ -23,8 +23,8 @@ public class Purchase implements IPurchase {
 	
 	public int getId() { return _id; }
 	public SGIImage getImage() { return _image; }
-	public IClient getClient() { return _client; }
-	public IPurchaseType getType() { return _type; }
+	public Client getClient() { return _client; }
+	public PurchaseType getType() { return _type; }
 	public float getPrice() { return _price; }
 	public Date getDateTime() { return _datetime; }
 	

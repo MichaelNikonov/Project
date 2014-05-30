@@ -5,13 +5,13 @@ import java.util.Date;
 public class Price implements IPrice {
 
 	private int _id;
-	private IPriceType _type;
+	private PriceType _type;
 	private float _price;
 	private Date _datetime;
 	private boolean _ceo;
 	private boolean _active;
 	
-	public Price(int id, IPriceType type, float price, Date dt, boolean ceo,
+	public Price(int id, PriceType type, float price, Date dt, boolean ceo,
 			boolean active) {
 		_id = id;
 		_type = type;
@@ -22,7 +22,7 @@ public class Price implements IPrice {
 	}
 	
 	public int getId() { return _id; }
-	public IPriceType getType() { return _type; }
+	public PriceType getType() { return _type; }
 	public float getPrice() { return _price; }
 	public Date getDateTime() { return _datetime; }
 	public boolean getCeoApprove() { return _ceo; }

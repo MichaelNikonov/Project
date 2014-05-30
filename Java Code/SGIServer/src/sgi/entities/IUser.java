@@ -2,10 +2,10 @@ package sgi.entities;
 
 
 public interface IUser {	
-	IPermission getPermission();
+	Permission getPermission();
 	String getUsername();
 	String getPassword();
-	void setPermission(IPermission value);
+	void setPermission(Permission value);
 	void setUsername(String value);
 	void setPassword(String value);
 }

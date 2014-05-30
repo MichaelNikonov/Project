@@ -4,6 +4,6 @@ import java.util.Date;
 
 public interface ISGIImage {	
 	int getId();
-	ILocation getLocation();
+	Location getLocation();
 	Date getDateTime();
 }
