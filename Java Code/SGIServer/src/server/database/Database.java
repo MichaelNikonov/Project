@@ -24,7 +24,8 @@ public final class Database {
 		_getLocations, _getImage, _getImages,_searchImages,
 		_getLayers, _getLayer, _getLayerType, _getLayerTypes, _getImageLayers,
 		_getLayersByType,
-		_getComplaints, _getUnseenComplaints, _getComplaintType, _getComplaintTypes,  
+		_getComplaints, _getUnseenComplaints, _getUnrepliedComplaints,
+		_getNearDeadlineComplaints, _getComplaintType, _getComplaintTypes,  
 		_getClientPurchases, _getClientSearchHistory;
 	
 	public Database(String sqlHost, String sqlDatabase, String sqlUser, 
@@ -48,12 +49,10 @@ public final class Database {
 			
 			// User
 			_getUser = _conn.prepareStatement(
-					"SELECT * FROM users INNER JOIN permissions " +
-					"ON users.permission = permissions.id " +
+					"SELECT * FROM users " +
 					"WHERE username = ? AND password = ?");
 			_getUsers = _conn.prepareStatement(
-					"SELECT * FROM users INNER JOIN permissions " +
-					"ON users.permission = permissions.id");
+					"SELECT * FROM users");
 			_setUserOnLine = _conn.prepareStatement(
 					"INSERT INTO online_users " +
 					"(username, timedate, ip) " +
@@ -84,19 +83,15 @@ public final class Database {
 			
 			// Employee
 			_getEmployees = _conn.prepareStatement(
-					"SELECT * FROM employees INNER JOIN employee_type " +
-					"ON employees.e_type = employee_type.id");
+					"SELECT * FROM employees");
 			_getEmployeeById = _conn.prepareStatement(
-					"SELECT * FROM employees INNER JOIN employee_type " +
-					"ON employees.e_type = employee_type.id " +
+					"SELECT * FROM employees " +
 					"WHERE employees.id = ?");
 			_getEmployeeByUsername = _conn.prepareStatement(
-					"SELECT * FROM employees INNER JOIN employee_type " +
-					"ON employees.e_type = employee_type.id " +
+					"SELECT * FROM employees " +
 					"WHERE employees.username = ?");
 			_getEmployeeByPosition = _conn.prepareStatement(
-					"SELECT * FROM employees INNER JOIN employee_type " +
-					"ON employees.e_type = employee_type.id " +
+					"SELECT * FROM employees " +
 					"WHERE employee_type.name = ?");
 			_getEmployeeTypes = _conn.prepareStatement(
 					"SELECT * FROM employee_type");
@@ -110,15 +105,12 @@ public final class Database {
 			
 			// Images
 			_getImage = _conn.prepareStatement(
-					"SELECT * FROM images INNER JOIN locations " +
-					"ON images.location = locations.id " +
+					"SELECT * FROM images " +
 					"WHERE id = ?");
 			_getImages = _conn.prepareStatement(
-					"SELECT * FROM images INNER JOIN locations " +
-					"ON images.location = locations.id");
+					"SELECT * FROM images");
 			_searchImages = _conn.prepareStatement(
-					"SELECT * FROM images INNER JOIN locations " +
-					"ON images.location = locations.id " +
+					"SELECT * FROM images " +
 					"WHERE locations.name = ? OR timedate = ?");
 			
 			// Layers
@@ -145,11 +137,17 @@ public final class Database {
 			_getUnseenComplaints = _conn.prepareStatement(
 					"SELECT * FROM complaints " +
 					"WHERE employee_id = NULL");
+			_getUnrepliedComplaints = _conn.prepareStatement(
+					"SELECT * FROM complaints " +
+					"WHERE reply IS NULL OR reply = \'\'");
 			_getComplaintTypes = _conn.prepareStatement(
 					"SELECT * FROM complaint_type");
 			_getComplaintType = _conn.prepareStatement(
 					"SELECT * FROM complaint_type " +
 					"WHERE id = ?");
+			_getNearDeadlineComplaints = _conn.prepareStatement(
+					"SELECT * FROM complaints " +
+					"WHERE (reply IS NULL OR reply = \'\') AND ((?*24*60) - TIMESTAMPDIFF(MINUTE,send_timedate,NOW()) < ?)");
 			
 			
 		} catch (SQLException | InstantiationException | IllegalAccessException 
@@ -175,7 +173,7 @@ public final class Database {
 			}
 			return rowCount;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("getResultSetCount: " + e.getMessage());
 			return 0;
 		}
 		
@@ -187,10 +185,14 @@ public final class Database {
 	 * @param sqlvalue
 	 * @return Java Date object
 	 */
-	private String sqlDateTimeToJavaDate(String sqlvalue) {
-		String res = sqlvalue.replace("-", "/");
-		res = res.substring(0, res.length()-3);
-		return res;
+	private Date sqlDateTimeToJavaDate(String sqlvalue) {
+		try {
+			String res = sqlvalue.replace("-", "/");
+			res = res.substring(0, res.length()-3);
+			return new Date(res);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -256,6 +258,7 @@ public final class Database {
 			_getPermission.setInt(1, id);
 			rs = _getPermission.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
+				rs.next();
 				res = new Permission(rs.getInt(1), rs.getString(2));
 			}
 			return res;
@@ -412,13 +415,13 @@ public final class Database {
 			rs = _getClientById.executeQuery();
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
-				res = new Client(rs.getInt(1), rs.getString(2), rs.getString(3), 
-						rs.getString(4), rs.getString(5), rs.getString(6));
+				res = new Client(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), 
+						rs.getString("phone"), rs.getString("email"), rs.getString("username"));
 			}
 			return res;
 		} catch (SQLException e) {
 			// Handle exception
-			System.out.println(e.getMessage());
+			System.out.println("getClient: " + e.getMessage());
 			return null;
 		}		
 	}
@@ -474,14 +477,14 @@ public final class Database {
 			rs = _getEmployeeById.executeQuery();
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
-				res = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), 
-						rs.getString(4), rs.getString(5), rs.getString(6),
-						new EmployeeType(rs.getInt(7),rs.getString(10)), rs.getString(8));
+				res = new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), 
+						rs.getString("phone"), rs.getString("email"), rs.getString("e_number"),
+						getEmployeeType(rs.getInt("e_type")), rs.getString("username"));
 			}
 			return res;
 		} catch (SQLException e) {
 			// Handle exception
-			System.out.println(e.getMessage());
+			System.out.println("getEmployee: " + e.getMessage());
 			return null;
 		}		
 	}
@@ -577,12 +580,13 @@ public final class Database {
 			_getEmployeeType.setInt(1, id);
 			rs = _getEmployeeType.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
-				res = new EmployeeType(rs.getInt(1), rs.getString(2));
+				rs.next();
+				res = new EmployeeType(rs.getInt("id"), rs.getString("name"));
 			}
 			return res;
 		} catch (SQLException e) {
 			// Handle exception
-			System.out.println(e.getMessage());
+			System.out.println("getEmployeeType: " + e.getMessage());
 			return null;
 		}				
 	}
@@ -616,9 +620,10 @@ public final class Database {
 			_getImage.setInt(1, id);
 			rs = _getImage.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
+				rs.next();
 				res = new SGIImage(rs.getInt(1), new Location(rs.getInt(4), 
 							rs.getInt(5), rs.getInt(6), rs.getString(7)), 
-							new Date(sqlDateTimeToJavaDate(rs.getString(3))));
+							sqlDateTimeToJavaDate(rs.getString(3)));
 			}
 			return res;
 		} catch (SQLException e) {
@@ -639,7 +644,7 @@ public final class Database {
 					res.add(
 						new SGIImage(rs.getInt(1), new Location(rs.getInt(4), 
 							rs.getInt(5), rs.getInt(6), rs.getString(7)), 
-							new Date(sqlDateTimeToJavaDate(rs.getString(3)))));
+							sqlDateTimeToJavaDate(rs.getString(3))));
 				}
 			}
 			return res;
@@ -663,7 +668,7 @@ public final class Database {
 					res.add(
 						new SGIImage(rs.getInt(1), new Location(rs.getInt(4), 
 							rs.getInt(5), rs.getInt(6), rs.getString(7)), 
-							new Date(sqlDateTimeToJavaDate(rs.getString(3)))));
+							sqlDateTimeToJavaDate(rs.getString(3))));
 				}
 			}
 			return res;
@@ -701,6 +706,7 @@ public final class Database {
 			_getLayerType.setInt(1, id);
 			rs = _getLayerType.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
+				rs.next();
 				res = new LayerType(rs.getInt(1), rs.getString(2));
 			}
 			return res;
@@ -711,6 +717,25 @@ public final class Database {
 		}				
 	}
 	
+	public Layer getLayer(int id) {
+		try {
+			Layer res = null;
+			ResultSet rs = null;
+			_getLayer.setInt(1, id);
+			rs = _getLayer.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				rs.next();
+				res = new Layer(rs.getInt(1), rs.getInt(2), 
+						getLayerType(rs.getInt(3)));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println("LayerType: " + e.getMessage());
+			return null;
+		}				
+	}
+
 	public ArrayList<Layer> getLayers() {
 		try {
 			ArrayList<Layer> res = null;
@@ -784,7 +809,7 @@ public final class Database {
 		try {
 			ArrayList<Complaint> res = null;
 			ResultSet rs = null;
-			rs = _getImages.executeQuery();				
+			rs = _getComplaints.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				res = new ArrayList<Complaint>();
 				while (rs.next()) {
@@ -793,17 +818,112 @@ public final class Database {
 						new Complaint(rs.getInt(1),
 								(rs.getInt(2)!=0 ? getEmployee(rs.getInt(2)) : null),
 								(rs.getInt(3)!=0 ? getClient(rs.getInt(3)) : null),
-								new ComplaintType(rs.getInt(4),"a"),
+								getComplaintType(rs.getInt(4)),
 								rs.getString(5),rs.getString(6),rs.getString(7),
 								rs.getFloat(8),
-								new Date(sqlDateTimeToJavaDate(rs.getString(9))),
-								new Date(sqlDateTimeToJavaDate(rs.getString(10)))));
+								sqlDateTimeToJavaDate(rs.getString(9)),
+								sqlDateTimeToJavaDate(rs.getString(10))));
 				}
 			}
 			return res;
 		} catch (SQLException e) {
 			// Handle exception
 			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	public ArrayList<Complaint> getUnrepliedComplaints() {
+		try {
+			ArrayList<Complaint> res = null;
+			ResultSet rs = null;
+			rs = _getUnrepliedComplaints.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<Complaint>();
+				while (rs.next()) {
+					System.out.println(rs.getInt(4));
+					res.add(
+						new Complaint(rs.getInt(1),
+								(rs.getInt(2)!=0 ? getEmployee(rs.getInt(2)) : null),
+								(rs.getInt(3)!=0 ? getClient(rs.getInt(3)) : null),
+								getComplaintType(rs.getInt(4)),
+								rs.getString(5),rs.getString(6),rs.getString(7),
+								rs.getFloat(8),
+								sqlDateTimeToJavaDate(rs.getString(9)),
+								sqlDateTimeToJavaDate(rs.getString(10))));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	public ArrayList<Complaint> getUnseenComplaints() {
+		try {
+			ArrayList<Complaint> res = null;
+			ResultSet rs = null;
+			rs = _getUnseenComplaints.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<Complaint>();
+				while (rs.next()) {
+					System.out.println(rs.getInt(4));
+					res.add(
+						new Complaint(rs.getInt(1),
+								(rs.getInt(2)!=0 ? getEmployee(rs.getInt(2)) : null),
+								(rs.getInt(3)!=0 ? getClient(rs.getInt(3)) : null),
+								getComplaintType(rs.getInt(4)),
+								rs.getString(5),rs.getString(6),rs.getString(7),
+								rs.getFloat(8),
+								sqlDateTimeToJavaDate(rs.getString(9)),
+								sqlDateTimeToJavaDate(rs.getString(10))));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Get all complaints that are not addressed (replied) within a threshold
+	 * from the deadline of address in days.
+	 * For example: For a deadline of 2 days to address to a complaint,
+	 * and wanting to get all complaints that are within an hour from
+	 * the end of the deadline, enter days=2, threshold = 60
+	 * @param days
+	 * @param threshold
+	 * @return An ArrayList of complaints
+	 */
+	public ArrayList<Complaint> getNearDeadlineComplaints(int days, int threshold) {
+		try {
+			ArrayList<Complaint> res = null;
+			ResultSet rs = null;
+			_getNearDeadlineComplaints.setInt(1, days);
+			_getNearDeadlineComplaints.setInt(2, threshold);
+			rs = _getNearDeadlineComplaints.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<Complaint>();
+				while (rs.next()) {
+					res.add(
+						new Complaint(rs.getInt("id"),
+								(rs.getInt("employee_id")!=0 ? getEmployee(rs.getInt("employee_id")) : null),
+								(rs.getInt("client_id")!=0 ? getClient(rs.getInt("client_id")) : null),
+								getComplaintType(rs.getInt("c_type")),
+								rs.getString("title"),rs.getString("content"),rs.getString("reply"),
+								rs.getFloat("compensation"),
+								sqlDateTimeToJavaDate(rs.getString("send_timedate")),
+								sqlDateTimeToJavaDate(rs.getString("reply_timedate"))));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println("getNearDeadlineComplaints: " + e.getMessage());
 			return null;
 		}
 	}
@@ -831,15 +951,16 @@ public final class Database {
 		try {
 			ComplaintType res = null;
 			ResultSet rs = null;
-			_getImage.setInt(1, id);
-			rs = _getImage.executeQuery();				
+			_getComplaintType.setInt(1, id);
+			rs = _getComplaintType.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
-				res = new ComplaintType(rs.getInt(1), rs.getString(2));
+				rs.next();
+				res = new ComplaintType(rs.getInt("id"), rs.getString("name"));
 			}
 			return res;
 		} catch (SQLException e) {
 			// Handle exception
-			System.out.println(e.getMessage());
+			System.out.println("GetComplaint Type: " + e.getMessage());
 			return null;
 		}		
 	}
@@ -871,6 +992,7 @@ public final class Database {
 			_getImage.setInt(1, id);
 			rs = _getImage.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
+				rs.next();
 				res = new PriceType(rs.getInt(1), rs.getString(2));
 			}
 			return res;
@@ -908,6 +1030,7 @@ public final class Database {
 			_getImage.setInt(1, id);
 			rs = _getImage.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
+				rs.next();
 				res = new SubscriptionType(rs.getInt(1), rs.getString(2));
 			}
 			return res;

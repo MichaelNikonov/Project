@@ -34,8 +34,20 @@
 		<item value="false" key="noindex"/>
 		<item value="C:\Users\Ron\Documents\GitHub\Project\Java Code\SGIServer\javadoc.xml" key="antpath"/>
 		<item value="false" key="nodeprecatedlist"/>
+<<<<<<< HEAD
 		<item value="true" key="use"/>
 		<item value="false" key="nodeprecated"/>
+=======
+		<item value="false" key="notree"/>
+		<item value="true" key="splitindex"/>
+		<item value="C:\Program Files\Java\jdk1.8.0_05\bin\javadoc.exe" key="javadoc_command_history"/>
+		<item value="true" key="use"/>
+		<item value="false" key="nonavbar"/>
+		<item value="public" key="access"/>
+		<item value="true" key="version"/>
+		<item value="false" key="nodeprecated"/>
+		<item value="C:\Users\Ron\Desktop\doc" key="destdir"/>
+>>>>>>> f065d5799b90b85718fd85dbef9e2045e6b31300
 		<item value="true" key="author"/>
 		<item value="false" key="nonavbar"/>
 		<item value="" key="docletpath"/>
@@ -55,6 +67,10 @@
 				<item value="" key="href"/>
 			</section>
 			<section name="SGIServer">
+<<<<<<< HEAD
+=======
+				<item value="C:\Users\Ron\Desktop\doc" key="destdir"/>
+>>>>>>> f065d5799b90b85718fd85dbef9e2045e6b31300
 				<item value="C:\Users\Ron\Documents\GitHub\Project\Java Code\SGIServer\javadoc.xml" key="antpath"/>
 				<item value="C:\Users\Ron\Documents\GitHub\Project\Java Code\SGIServer\doc" key="destdir"/>
 				<item value="" key="href"/>

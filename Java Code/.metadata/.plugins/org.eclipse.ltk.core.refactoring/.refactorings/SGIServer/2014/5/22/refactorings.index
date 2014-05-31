@@ -38,3 +38,6 @@
 1401391253406	Rename package 'SGIEntities'
 1401391509867	Move compilation unit
 1401463994351	Rename field '‪_updateUsersLog‬'
+1401476413203	Rename local variable 'threshuld'
+1401476774411	Rename method 'getUnreplyedComplaints'
+1401476791668	Rename field '‪_getUnreplyedComplaints‬'
