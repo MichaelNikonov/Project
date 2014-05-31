@@ -45,13 +45,13 @@
 		<item value="false" key="nodeprecatedlist"/>
 		<item value="false" key="notree"/>
 		<item value="true" key="splitindex"/>
-		<item value="" key="javadoc_command_history"/>
+		<item value="C:\Program Files\Java\jdk1.8.0_05\bin\javadoc.exe" key="javadoc_command_history"/>
 		<item value="true" key="use"/>
 		<item value="false" key="nonavbar"/>
-		<item value="private" key="access"/>
+		<item value="public" key="access"/>
 		<item value="true" key="version"/>
 		<item value="false" key="nodeprecated"/>
-		<item value="C:\Users\Ron\Documents\GitHub\Project\Java Code\SGIServer\doc" key="destdir"/>
+		<item value="C:\Users\Ron\Desktop\doc" key="destdir"/>
 		<item value="true" key="author"/>
 		<item value="" key="docletname"/>
 		<item value="1.7" key="source"/>
@@ -67,7 +67,7 @@
 				<item value="" key="href"/>
 			</section>
 			<section name="SGIServer">
-				<item value="C:\Users\Ron\Documents\GitHub\Project\Java Code\SGIServer\doc" key="destdir"/>
+				<item value="C:\Users\Ron\Desktop\doc" key="destdir"/>
 				<item value="C:\Users\Ron\Documents\GitHub\Project\Java Code\SGIServer\javadoc.xml" key="antpath"/>
 				<item value="" key="href"/>
 			</section>

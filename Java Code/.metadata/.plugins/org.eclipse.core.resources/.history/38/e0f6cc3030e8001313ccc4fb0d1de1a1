@@ -1,0 +1,55 @@
+package client.gui;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+public class JGraph extends JPanel {
+
+	private int[][] _data;
+	private Color _bg = new Color(255,255,255);
+	private Color _grid = new Color(0,0,0);
+	
+	public JGraph(int[][] data, Color bg) {
+		_data = data;
+		_bg = bg;
+	}
+	
+	private int getMaxDataValue() {
+		int _max = _data[0][0];
+		for (int i=0;i<_data.length;i++)
+			for (int j=0;j<_data[i].length;j++)
+				if (_data[i][j] > _max) _max=_data[i][j];
+		return _max;
+	}
+
+	private int getMinDataValue() {
+		int _min = _data[0][0];
+		for (int i=0;i<_data.length;i++)
+			for (int j=0;j<_data[i].length;j++)
+				if (_data[i][j] < _min) _min=_data[i][j];
+		return _min;
+	}
+
+	private int getDataValuesDiff() {
+		return Math.abs(getMaxDataValue()-getMinDataValue());
+	}
+	
+	private int getNumberOfColumns() {
+		return _data.length;
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int _w, _h;
+		_w = this.getPreferredSize().width;
+		_h = this.getPreferredSize().height;
+		g.setColor(_bg);
+		g.fillRect(0, 0, _w, _h);
+		g.setColor(_grid);
+		g.drawLine(5, 5, 5, _h-5);
+		g.drawLine(5, 5, _w-5, 5);
+		
+	}
+}

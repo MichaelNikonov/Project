@@ -1,0 +1,41 @@
+package client.gui;
+
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+public class JGraph extends JPanel {
+
+	private int[][] _data;
+	
+	public JGraph(int[][] data) {
+		_data = data;
+	}
+	
+	private int getMaxDataValue() {
+		int _max = _data[0][0];
+		for (int i=0;i<_data.length;i++)
+			for (int j=0;j<_data[i].length;j++)
+				if (_data[i][j] > _max) _max=_data[i][j];
+		return _max;
+	}
+
+	private int getMinDataValue() {
+		int _max = _data[0][0];
+		for (int i=0;i<_data.length;i++)
+			for (int j=0;j<_data[i].length;j++)
+				if (_data[i][j] > _max) _max=_data[i][j];
+		return _max;
+	}
+
+	private int getNumberOfColumns() {
+		return _data.length;
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int _w, _h;
+		_w = this.getPreferredSize().width;
+		_h = this.getPreferredSize().height;
+	}
+}

@@ -147,14 +147,14 @@ CREATE TABLE complaint_type (
 
 CREATE TABLE complaints (
 	id INT NOT NULL AUTO_INCREMENT,
-	employee_id INT,
+	employee_id INT DEFAULT 0,
 	client_id INT NOT NULL,
 	c_type INT NOT NULL,
 	title VARCHAR(255),
 	content TEXT NOT NULL,
 	reply TEXT,
-	compensation FLOAT,
-	send_timedate DATETIME NOT NULL,
+	compensation FLOAT DEFAULT 0,
+	send_timedate DATETIME NOT NULL DEFAULT NOW(),
 	reply_timedate DATETIME,
 	PRIMARY KEY (id),
 	FOREIGN KEY (employee_id) REFERENCES employees(id),
@@ -318,6 +318,15 @@ VALUES
 	(NULL,'Shula','I','058-1234567','shula@braude.ac.il','SGI007',7,'shula');
 
 /*
+* System complaints
+*/
+INSERT INTO complaints
+	(id,employee_id,client_id,c_type,title,content,reply,compensation,send_timedate,reply_timedate)
+VALUES
+	(NULL,7,1,1,"Australia","Hello, I can't find Australia images. Please add them.",NULL,NULL,NOW(),NULL),
+	(NULL,NULL,2,5,"Prices","Your prices are too high!",NULL,NULL,NOW(),NULL);
+
+/*
 * The sytem locations are:
 * ------------------------
 * Israel
@@ -336,7 +345,6 @@ VALUES
 /*
 * System images
 */
-
 INSERT INTO images
 	(id,location,timedate)
 VALUES
@@ -349,3 +357,31 @@ VALUES
 	(NULL,3,'2014-01-10 09:30:00'),
 	(NULL,3,'2014-02-10 00:15:00'),
 	(NULL,4,'2014-01-02 01:00:00');
+
+/*
+* System layers
+*/
+INSERT INTO layers
+	(id,image_id,l_type)
+VALUES
+	(NULL,1,1),
+	(NULL,1,2),
+	(NULL,4,3),
+	(NULL,5,1),
+	(NULL,5,2),
+	(NULL,6,1),
+	(NULL,6,2),
+	(NULL,6,3);
+
+/*
+* System prices
+*/
+INSERT INTO prices
+	(id,p_type,price,timedate,ceo_approve,active)
+VALUES
+	(NULL,1,4,NOW(),TRUE,FALSE),
+	(NULL,1,5,NOW(),TRUE,TRUE),
+	(NULL,2,560,NOW(),TRUE,FALSE),
+	(NULL,2,700,NOW(),TRUE,TRUE),
+	(NULL,3,50,NOW(),TRUE,TRUE),
+	(NULL,4,50,NOW(),TRUE,TRUE);

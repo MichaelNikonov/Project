@@ -39,12 +39,12 @@ public class ServerMain {
 		System.out.println(users.size());
 		if (db.removeUnusedLoggedUsers(15)) System.out.println("All 15 min users logged off");
 		*/
-		ArrayList<LayerType> layers = db.getLayerTypes();
+		ArrayList<Complaint> layers = db.getNearDeadlineComplaints(1, (int)(21.7*60));
 		if (layers==null)
-			System.out.println("no layers!");
+			System.out.println("\"no complaints!\"");
 		else
 			for (int i = 0; i < layers.size(); i++) {
-				System.out.println(layers.get(i).getId() + ", " + layers.get(i).getName());
+				System.out.println(layers.get(i).getId() + ", " + layers.get(i).getTitle());
 		}
 	}
 

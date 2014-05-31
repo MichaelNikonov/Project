@@ -1,0 +1,12 @@
+package client.gui;
+
+import javax.swing.JPanel;
+
+public class JGraph extends JPanel {
+
+	private int[][] _data;
+	
+	public JGraph(int[][] data) {
+		_data = data;
+	}
+}

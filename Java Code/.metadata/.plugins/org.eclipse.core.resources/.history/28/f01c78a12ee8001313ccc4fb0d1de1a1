@@ -1,0 +1,22 @@
+package client.gui;
+
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+public class JGraph extends JPanel {
+
+	private int[][] _data;
+	
+	public JGraph(int[][] data) {
+		_data = data;
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int _w, _h;
+		_w = this.getPreferredSize().width;
+		_h = this.getPreferredSize().height;
+		
+	}
+}
