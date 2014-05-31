@@ -1,0 +1,6 @@
+package client.main;
+
+public class IClient 
+{
+	void SetResults(String[] list);
+}

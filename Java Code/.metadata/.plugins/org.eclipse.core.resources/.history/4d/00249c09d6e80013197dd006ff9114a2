@@ -1,0 +1,47 @@
+package client.gui;
+
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class ShowLoginWindow extends JPanel
+{
+	private JPanel inPanel;
+	private JLabel userNameLabel;
+	private JLabel passwordLabel;
+	private JTextField userNameText;
+	private JTextField passwordText;
+	public JButton button;
+	
+	/**
+	 * Constructor - login form
+	 **/
+	public ShowLoginWindow() 
+	{
+		
+	}
+
+	/**
+	 * Initialize the components
+	 **/
+	public void initialize()
+	{
+		this.button = new JButton ("Submit");
+		this.userNameLabel = new JLabel("User name:");
+		this.passwordLabel = new JLabel("User name:");
+		this.userNameText = new JTextField("");
+		this.passwordText = new JTextField("");
+		inPanel = new JPanel (new GridLayout(3, 2, 1, 0));
+		inPanel.add (this.userNameLabel);
+		inPanel.add (this.userNameText);
+		inPanel.add (this.passwordLabel);
+		inPanel.add (this.passwordText);
+		inPanel.add (this.button);
+		this.add (inPanel);	
+		this.setVisible(true);
+	}
+
+}

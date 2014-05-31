@@ -1,0 +1,9 @@
+package client.main;
+
+import ocsf.client.AbstractClient;
+import ocsf.client.*;
+
+public class MainClient extends AbstractClient
+{
+
+}

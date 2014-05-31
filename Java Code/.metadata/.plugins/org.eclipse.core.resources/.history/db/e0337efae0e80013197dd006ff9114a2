@@ -1,0 +1,20 @@
+package client.main;
+
+import ocsf.client.*;
+
+public class MainClient extends AbstractClient
+{
+
+	public MainClient(String host, int port, IClient client) 
+	{
+		super(host, port);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	protected void handleMessageFromServer(Object msg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

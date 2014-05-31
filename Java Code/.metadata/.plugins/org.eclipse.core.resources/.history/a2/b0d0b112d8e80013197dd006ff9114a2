@@ -1,0 +1,105 @@
+package client.controllers;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import ocsf.client.ObservableClient;
+import sgi.entities.User;
+import client.gui.ShowLoginWindow;
+import client.gui.ShowLogoutWindow;
+
+public class UserController implements IUserController
+{
+	private ShowLogoutWindow _logoutView;
+	private ShowLoginWindow _loginView;
+	private User _user;
+	private ObservableClient _client;
+	
+	public UserController (ObservableClient client)
+	{
+		_user = null;
+		_logoutView = null;
+		_loginView = null;
+		_client = client;
+	}
+	
+	public User getUser () { return _user;}
+	public ShowLogoutWindow getLogoutView () 
+	{
+		try
+		{
+			if (_user == null)
+				new Exception ("The user has not logged in!");
+			if (_logoutView == null)
+			{
+				_logoutView = new ShowLogoutWindow ("Hi, ", _user.getUsername(), "Sign out");
+				_logoutView.button.addActionListener
+				(
+					new ActionListener() 
+					{
+						public void actionPerformed(ActionEvent e) 
+						{
+							LogOut();
+						}
+					}
+				);
+			}
+			return _logoutView;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	public ShowLoginWindow getLoginView () 
+	{
+		try
+		{
+			if (_loginView == null)
+			{
+				_loginView = new ShowLoginWindow ();
+				_loginView.button.addActionListener
+				(
+					new ActionListener() 
+					{
+						public void actionPerformed(ActionEvent e) 
+						{
+							String userName = _loginView.userNameText.getText();
+							String password = _loginView.passwordText.getText();
+							/**
+							 * new object
+							 * ObjectMsg msg = new ObjectMsg (null, msgs.GetUser);
+							 * 
+							 */
+							LogIn("", "");
+						}
+					}
+				);
+			}
+			return _loginView;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	
+	/**
+	 * Log in the user with relevant permissions
+	 * @param userName the user name
+	 * @param password the password for given user name
+	 */
+	@Override
+	public boolean LogIn(String userName, String password) 
+	{
+		
+		return false;
+	}
+
+	@Override
+	public boolean LogOut() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}

@@ -1,0 +1,21 @@
+package client.gui;
+
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import java.awt.GridLayout;
+import javax.swing.JTextPane;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+
+public class ShowLogoutWindow extends JPanel
+{
+	public ShowLogoutWindow() {
+		setLayout(new GridLayout(1, 3, 1, 1));
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+}

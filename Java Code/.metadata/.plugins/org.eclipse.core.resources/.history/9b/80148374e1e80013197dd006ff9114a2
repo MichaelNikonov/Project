@@ -1,0 +1,26 @@
+package client.main;
+
+import java.io.IOException;
+
+import ocsf.client.*;
+
+public class MainClient extends AbstractClient
+{
+
+	IClient client;
+	
+	public MainClient(String host, int port, IClient client) throws IOException 
+	{
+	    super(host, port); //Call the superclass constructor
+	    openConnection();
+	    this.client = client;
+	}
+
+	@Override
+	protected void handleMessageFromServer(Object msg) 
+	{
+
+		
+	}
+
+}

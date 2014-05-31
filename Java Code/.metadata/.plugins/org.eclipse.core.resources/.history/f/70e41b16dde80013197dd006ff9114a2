@@ -1,0 +1,156 @@
+package client.controllers;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import ocsf.client.ObservableClient;
+import sgi.entities.User;
+import client.gui.ShowLoginWindow;
+import client.gui.ShowLogoutWindow;
+
+public class UserController implements IUserController
+{
+	private ShowLogoutWindow _logoutView;
+	private ShowLoginWindow _loginView;
+	private User _user;
+	private ObservableClient _client;
+	private boolean loggedIn = false;
+	
+	public UserController (ObservableClient client)
+	{
+		_user = null;
+		_logoutView = null;
+		_loginView = null;
+		_client = client;
+	}
+	
+	public User getUser () { return _user;}
+	
+	public boolean UserLoggedIn () { return loggedIn; }
+	
+	public ShowLogoutWindow getLogoutView () 
+	{
+		try
+		{
+			if (_user == null)
+				new Exception ("The user has not logged in!");
+			if (_logoutView == null)
+			{
+				_logoutView = new ShowLogoutWindow ("Hi, ", _user.getUsername(), "Sign out");
+				_logoutView.button.addActionListener
+				(
+					new ActionListener() 
+					{
+						public void actionPerformed(ActionEvent e) 
+						{
+							LogOut();
+						}
+					}
+				);
+			}
+			return _logoutView;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public ShowLoginWindow getLoginView () 
+	{
+		try
+		{
+			if (_loginView == null)
+			{
+				_loginView = new ShowLoginWindow ();
+				_loginView.button.addActionListener
+				(
+					new ActionListener() 
+					{
+						public void actionPerformed(ActionEvent e) 
+						{
+							boolean res = false;
+							String userName = _loginView.userNameText.getText();
+							String password =  _loginView.passwordText.getText();
+							if (userName.trim().equals (""))
+								_loginView.errorLabel.setText ("Enter user name!");
+							if (password.trim().equals (""))
+								_loginView.errorLabel.setText ("Enter password!");
+							res = LogIn(userName, password);
+							if (!res)
+							{
+								_loginView.errorLabel.setText ("Invalid Password!");
+							}
+							else 
+								loggedIn = true;
+						}
+					}
+				);
+			}
+			return _loginView;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	
+	/**
+	 * Login the user with relevant permissions
+	 * @param userName the user name
+	 * @param password the password for given user name
+	 */
+	@Override
+	public boolean LogIn(String userName, String password) 
+	{
+		/**
+		 * new object
+		 * ObjectMsg msg = new ObjectMsg (null, msgs.GetUser);
+		 * 
+		 */
+		try 
+		{
+			_client.sendToServer(new Object());
+		} 
+		catch (IOException e1) 
+		{
+			e1.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Wait for answer from the client
+	 * @return User object
+	 */
+	private User getUserObject(Object msg)
+	{
+		if (msg == null)
+			return null; 
+		try
+		{
+			msg = null;
+			//_client.handleMessageFromServer(msg);
+			//ObjectMsg object = (ObjectMsg)msg;
+			//return object.GetData();
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+		return null;
+	}
+
+	/**
+	 * Logout user
+	 */
+	@Override
+	public boolean LogOut() 
+	{
+		_user = null;
+		return true;
+	}
+}
