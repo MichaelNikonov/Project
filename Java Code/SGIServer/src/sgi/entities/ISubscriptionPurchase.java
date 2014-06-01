@@ -3,8 +3,8 @@ package sgi.entities;
 import java.util.Date;
 
 public interface ISubscriptionPurchase {
-	ISubscription getSubscription();
-	IClient getClient();
+	Subscription getSubscription();
+	Client getClient();
 	Date getDateTime();
 	int getUsedImages();
 	float getPrice();

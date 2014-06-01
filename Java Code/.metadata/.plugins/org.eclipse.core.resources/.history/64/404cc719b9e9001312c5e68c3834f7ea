@@ -1,0 +1,26 @@
+package server.main;
+
+import java.util.ArrayList;
+import java.util.Date;
+import server.database.Database;
+import sgi.entities.*;
+
+public class ServerMain {
+
+	private ServerConfiguration _config;
+	
+	/**
+	 * @param args
+	 */
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) {
+		Database db = new Database("localhost","sgi","root","root");
+		ArrayList<Location> locations = db.getLocations();
+		SGIImage temp = new SGIImage(0,locations.get(0), new Date());
+		if (db.addImage(temp))
+			System.out.println("Image added!");
+		else
+			System.out.println("Image not added!");
+	}
+
+}

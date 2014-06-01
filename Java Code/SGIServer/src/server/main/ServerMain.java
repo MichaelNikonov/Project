@@ -2,50 +2,31 @@ package server.main;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 import server.database.Database;
+import server.models.*;
 import sgi.entities.*;
-
 
 public class ServerMain {
 
+	private static ServerConfiguration _config;
+	private static Database _db;
 	/**
 	 * @param args
 	 */
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
-		Database db = new Database("localhost","sgi","root","root");
-		/*
-		ArrayList<User> users = db.getUsers();
-		if (users!=null) {
-			System.out.println("User 1: " + users.get(0).getUsername());
-			if (db.setUserOnline(users.get(0),"127.0.0.1")==1)
-				System.out.println("User 1 is online");
-			else
-				if (db.setUserOnline(users.get(0),"127.0.0.1")==2) {
-					System.out.println("User 1 already online!");
-					if (db.setUserOffline(users.get(0)))
-						System.out.println("User is now offline!");
-					else
-						System.out.println("Error logging off the user!");
-				}
-				else
-					System.out.println("Error logging in the user!");
-		}
-		else
-			System.out.println("No Permissions in the system!");
+		// Load configuration
+		_config = new ServerConfiguration();
+		// Initialize DB object
+		_db = new Database(_config.getHost(),_config.getDBName(),
+				_config.getSqlUsername(),_config.getSqlPassword());
 		
-		ArrayList<User> users = db.getUnusedLoggedUsers(15);
-		if (users==null) System.out.println("no users!"); else
-		System.out.println(users.size());
-		if (db.removeUnusedLoggedUsers(15)) System.out.println("All 15 min users logged off");
-		*/
-		ArrayList<Complaint> layers = db.getNearDeadlineComplaints(1, (int)(21.7*60));
-		if (layers==null)
-			System.out.println("\"no complaints!\"");
+		ArrayList<Location> locations = _db.getLocations();
+		SGIImage temp = new SGIImage(0,locations.get(0), new Date());
+		if (_db.addImage(temp))
+			System.out.println("Image added!");
 		else
-			for (int i = 0; i < layers.size(); i++) {
-				System.out.println(layers.get(i).getId() + ", " + layers.get(i).getTitle());
-		}
+			System.out.println("Image not added!");
 	}
 
 }

@@ -1,0 +1,9 @@
+package server.controllers;
+
+import server.models.ServerConfiguration;
+
+public class ConfigurationController {
+
+	private ServerConfiguration _config;
+	
+}

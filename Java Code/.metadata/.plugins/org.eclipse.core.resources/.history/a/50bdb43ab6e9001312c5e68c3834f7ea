@@ -1,0 +1,27 @@
+package server.main;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.swing.JFrame;
+
+import server.database.Database;
+import server.gui.JImageBox;
+import sgi.entities.*;
+
+public class ServerMain {
+
+	/**
+	 * @param args
+	 */
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) {
+		Database db = new Database("localhost","sgi","root","root");
+		SGIImage temp = new SGIImage(10,new Location(3,0,0,"A"), new Date(2014,05,01,0,0,0));
+		if (db.addImage(temp))
+			System.out.println("Image added!");
+		else
+			System.out.println("Image not added!");
+	}
+
+}

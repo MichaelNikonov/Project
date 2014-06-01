@@ -1,7 +1,10 @@
 package sgi.entities;
+import java.awt.image.BufferedImage;
 
 public interface ILayer {	
 	int getId();
 	int getImageId();
-	ILayerType getType();
+	LayerType getType();
+	BufferedImage getLayerImage();	
+	void setImage(String layerFile);
 }

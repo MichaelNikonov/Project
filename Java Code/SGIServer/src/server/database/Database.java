@@ -15,18 +15,34 @@ public final class Database {
 	 * A list of all the prepared statements to use with the database
 	 */
 	private PreparedStatement 
+		// Permissions
 		_getPermissions, _getPermission,
+		// Users
 		_getUser, _getUsers, _setUserOnLine, _removeUserOnLine, 
 		_getUnusedLoggedUsers, _removeUnusedLoggedUsers,
+		// Clients
 		_getClientById, _getClientByUsername, _getClientByName, _getClients,
+		// Employees
 		_getEmployeeById, _getEmployeeByUsername, _getEmployeeByPosition, 
-		_getEmployees, _getEmployeeType, _getEmployeeTypes,  
-		_getLocations, _getImage, _getImages,_searchImages,
+		_getEmployees, _getEmployeeType, _getEmployeeTypes,
+		// Locations
+		_getLocations, _getLocationById,
+		// Images
+		_getImage, _getImages,_searchImages, _addImage, _deleteImage,
+		// Layers
 		_getLayers, _getLayer, _getLayerType, _getLayerTypes, _getImageLayers,
 		_getLayersByType,
+		// Prices
+		_getPriceType, _getPriceTypes,
+		// Subscription
+		_getSubscriptionType, _getSubscriptionTypes, _getClientSubscriptions,
+		_getSubscriptions, _getSubscription,
+		// Complaints
 		_getComplaints, _getUnseenComplaints, _getUnrepliedComplaints,
-		_getNearDeadlineComplaints, _getComplaintType, _getComplaintTypes,  
-		_getClientPurchases, _getClientSearchHistory;
+		_getNearDeadlineComplaints, _getComplaintType, _getComplaintTypes,
+		// Purchases And History
+		_getPurchases, _getPurchasesByMonth, _getClientPurchases,
+		_getClientSearchHistory;
 	
 	public Database(String sqlHost, String sqlDatabase, String sqlUser, 
 			String sqlPassword) {
@@ -102,6 +118,9 @@ public final class Database {
 			// Locations
 			_getLocations = _conn.prepareStatement(
 					"SELECT * FROM locations");
+			_getLocationById = _conn.prepareStatement(
+					"SELECT * FROM locations " + 
+					"WHERE id = ?");
 			
 			// Images
 			_getImage = _conn.prepareStatement(
@@ -112,6 +131,13 @@ public final class Database {
 			_searchImages = _conn.prepareStatement(
 					"SELECT * FROM images " +
 					"WHERE locations.name = ? OR timedate = ?");
+			_addImage = _conn.prepareStatement(
+					"INSERT INTO images " +
+					"(id, location, timedate) " +
+					"VALUES (NULL, ?, ?)");
+			_deleteImage = _conn.prepareStatement(
+					"DELETE FROM images " +
+					"WHERE id = ?");
 			
 			// Layers
 			_getLayerTypes = _conn.prepareStatement(
@@ -149,7 +175,38 @@ public final class Database {
 					"SELECT * FROM complaints " +
 					"WHERE (reply IS NULL OR reply = \'\') AND ((?*24*60) - TIMESTAMPDIFF(MINUTE,send_timedate,NOW()) < ?)");
 			
+			// Price
+			_getPriceType = _conn.prepareStatement(
+					"SELECT * FROM price_type " +
+					"WHERE id = ?");
+			_getPriceTypes = _conn.prepareStatement(
+					"SELECT * FROM price_type");
+
+			// Subscriptions
+			_getSubscriptionType = _conn.prepareStatement(
+					"SELECT * FROM subscription_type " +
+					"WHERE id = ?");
+			_getSubscriptionTypes = _conn.prepareStatement(
+					"SELECT * FROM subscription_type");
+			_getClientSubscriptions = _conn.prepareStatement(
+					"SELECT * FROM subscription_purchases " +
+					"WHERE client_id = ?");
+			_getSubscriptions = _conn.prepareStatement(
+					"SELECT * FROM subscriptions");
+			_getSubscription = _conn.prepareStatement(
+					"SELECT * FROM subscriptions" +
+					"WHERE id = ?");
 			
+			// Purchases And History
+			_getPurchases = _conn.prepareStatement(
+					"SELECT * FROM purchases");
+			_getClientPurchases = _conn.prepareStatement(
+					"SELECT * FROM purchases " +
+					"WHERE client_id = ?");
+			_getPurchasesByMonth = _conn.prepareStatement(
+					"SELECT * FROM purchases " +
+					"WHERE MONTH(timedate) = ?");
+		
 		} catch (SQLException | InstantiationException | IllegalAccessException 
 				| ClassNotFoundException e) {
 			_conn = null;
@@ -201,7 +258,7 @@ public final class Database {
 	 * @param jvalue
 	 * @return MySql DateTime string
 	 */
-	private String javaDateToSqlDateTime(Date jvalue) {
+	public String javaDateToSqlDateTime(Date jvalue) {
 		String temp = jvalue.toString();
 		String year = temp.substring(24,28);
 		String time = temp.substring(11,19);
@@ -612,6 +669,25 @@ public final class Database {
 		}
 	}
 	
+	public Location getLocation(int id) {
+		try {
+			Location res = null;
+			ResultSet rs = null;
+			_getLocationById.setInt(1, id);
+			rs = _getLocationById.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				rs.next();
+				res = new Location(rs.getInt("id"), rs.getInt("xcoord"),
+						rs.getInt("ycoord"),rs.getString("name"));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println("getEmployeeType: " + e.getMessage());
+			return null;
+		}				
+	}
+	
 	// Images
 	public SGIImage getImage(int id) {
 		try {
@@ -621,9 +697,11 @@ public final class Database {
 			rs = _getImage.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
-				res = new SGIImage(rs.getInt(1), new Location(rs.getInt(4), 
-							rs.getInt(5), rs.getInt(6), rs.getString(7)), 
-							sqlDateTimeToJavaDate(rs.getString(3)));
+				res = new SGIImage(rs.getInt("id"),
+						getLocation(rs.getInt("location")), 
+						sqlDateTimeToJavaDate(rs.getString("timedate")),
+						"images\\" + rs.getInt("id") + ".jpg"
+						);
 			}
 			return res;
 		} catch (SQLException e) {
@@ -642,9 +720,12 @@ public final class Database {
 				res = new ArrayList<SGIImage>();
 				while (rs.next()) {
 					res.add(
-						new SGIImage(rs.getInt(1), new Location(rs.getInt(4), 
-							rs.getInt(5), rs.getInt(6), rs.getString(7)), 
-							sqlDateTimeToJavaDate(rs.getString(3))));
+						new SGIImage(rs.getInt("id"),
+								getLocation(rs.getInt("location")), 
+								sqlDateTimeToJavaDate(rs.getString("timedate")),
+								"images\\" + rs.getInt("id") + ".jpg"
+								)
+						);
 				}
 			}
 			return res;
@@ -666,9 +747,12 @@ public final class Database {
 				res = new ArrayList<SGIImage>();
 				while (rs.next()) {
 					res.add(
-						new SGIImage(rs.getInt(1), new Location(rs.getInt(4), 
-							rs.getInt(5), rs.getInt(6), rs.getString(7)), 
-							sqlDateTimeToJavaDate(rs.getString(3))));
+						new SGIImage(rs.getInt("id"),
+								getLocation(rs.getInt("location")), 
+								sqlDateTimeToJavaDate(rs.getString("timedate")),
+								"images\\" + rs.getInt("id") + ".jpg"
+								)
+						);
 				}
 			}
 			return res;
@@ -679,6 +763,19 @@ public final class Database {
 		}
 	}
 
+	public boolean addImage(SGIImage img) {
+		try {
+			_addImage.setInt(1, img.getLocation().getId());
+			_addImage.setString(2, this.javaDateToSqlDateTime(img.getDateTime()));
+			if (_addImage.executeUpdate()==1)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			return false;
+		}		
+	}
+	
 	// Layers
 	public ArrayList<LayerType> getLayerTypes() {
 		try {
@@ -725,8 +822,9 @@ public final class Database {
 			rs = _getLayer.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
-				res = new Layer(rs.getInt(1), rs.getInt(2), 
-						getLayerType(rs.getInt(3)));
+				res = new Layer(rs.getInt("id"), rs.getInt("image_id"), 
+						getLayerType(rs.getInt("l_type")),
+						"layers\\" + rs.getInt("id") + ".png");
 			}
 			return res;
 		} catch (SQLException e) {
@@ -745,8 +843,9 @@ public final class Database {
 				res = new ArrayList<Layer>();
 				while (rs.next()) {
 					res.add(
-						new Layer(rs.getInt(1), rs.getInt(2), 
-								getLayerType(rs.getInt(3))));
+						new Layer(rs.getInt("id"), rs.getInt("image_id"), 
+								getLayerType(rs.getInt("l_type")),
+								"layers\\" + rs.getInt("id") + ".png"));
 				}
 			}
 			return res;
@@ -768,8 +867,9 @@ public final class Database {
 				res = new ArrayList<Layer>();
 				while (rs.next()) {
 					res.add(
-						new Layer(rs.getInt(1), rs.getInt(2), 
-								getLayerType(rs.getInt(3))));
+						new Layer(rs.getInt("id"), rs.getInt("image_id"), 
+								getLayerType(rs.getInt("l_type")),
+								"layers\\" + rs.getInt("id") + ".png"));
 				}
 			}
 			return res;
@@ -791,8 +891,9 @@ public final class Database {
 				res = new ArrayList<Layer>();
 				while (rs.next()) {
 					res.add(
-						new Layer(rs.getInt(1), rs.getInt(2), 
-								getLayerType(rs.getInt(3))));
+						new Layer(rs.getInt("id"), rs.getInt("image_id"), 
+								getLayerType(rs.getInt("l_type")),
+								"layers\\" + rs.getInt("id") + ".png"));
 				}
 			}
 			return res;
@@ -932,7 +1033,7 @@ public final class Database {
 		try {
 			ArrayList<ComplaintType> res = null;
 			ResultSet rs = null;
-			rs = _getImages.executeQuery();				
+			rs = _getComplaintTypes.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				res = new ArrayList<ComplaintType>();
 				while (rs.next()) {
@@ -970,7 +1071,7 @@ public final class Database {
 		try {
 			ArrayList<PriceType> res = null;
 			ResultSet rs = null;
-			rs = _getImages.executeQuery();				
+			rs = _getPriceTypes.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				res = new ArrayList<PriceType>();
 				while (rs.next()) {
@@ -989,8 +1090,8 @@ public final class Database {
 		try {
 			PriceType res = null;
 			ResultSet rs = null;
-			_getImage.setInt(1, id);
-			rs = _getImage.executeQuery();				
+			_getPriceType.setInt(1, id);
+			rs = _getPriceType.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
 				res = new PriceType(rs.getInt(1), rs.getString(2));
@@ -1008,7 +1109,7 @@ public final class Database {
 		try {
 			ArrayList<SubscriptionType> res = null;
 			ResultSet rs = null;
-			rs = _getImages.executeQuery();				
+			rs = _getSubscriptionTypes.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				res = new ArrayList<SubscriptionType>();
 				while (rs.next()) {
@@ -1027,8 +1128,8 @@ public final class Database {
 		try {
 			SubscriptionType res = null;
 			ResultSet rs = null;
-			_getImage.setInt(1, id);
-			rs = _getImage.executeQuery();				
+			_getSubscriptionType.setInt(1, id);
+			rs = _getSubscriptionType.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
 				res = new SubscriptionType(rs.getInt(1), rs.getString(2));
@@ -1040,5 +1141,46 @@ public final class Database {
 			return null;
 		}				
 	}
-			
+
+	public Subscription getSubscription(int id) {
+		try {
+			Subscription res = null;
+			ResultSet rs = null;
+			_getSubscription.setInt(1, id);
+			rs = _getSubscription.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				rs.next();
+				res = new Subscription(rs.getInt(1), getSubscriptionType(rs.getInt(2)),
+						getLayerType(rs.getInt(3)),rs.getInt(4));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}						
+	}
+	
+	public ArrayList<SubscriptionPurchase> getClientSubscriptions(int cid) {
+		try {
+			ArrayList<SubscriptionPurchase> res = null;
+			ResultSet rs = null;
+			_getClientSubscriptions.setInt(1, cid);
+			rs = _getClientSubscriptions.executeQuery();				
+			if (getResultSetCount(rs) > 0) {
+				res = new ArrayList<SubscriptionPurchase>();
+				while (rs.next()) {
+					res.add(new SubscriptionPurchase(getSubscription(rs.getInt("subscription_id")),
+							getClient(rs.getInt("client_id")), this.sqlDateTimeToJavaDate(rs.getString("timedate")),
+							rs.getInt("used_images"),rs.getFloat("price")));
+				}
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}						
+	}
+	
 }
