@@ -1023,7 +1023,7 @@ public final class Database {
 		}						
 	}
 	
-	public SubscriptionType geSubscriptionType(int id) {
+	public SubscriptionType getSubscriptionType(int id) {
 		try {
 			SubscriptionType res = null;
 			ResultSet rs = null;
