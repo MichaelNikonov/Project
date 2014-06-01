@@ -1,5 +1,7 @@
 package server.gui;
 
-public class ConfigurationGUI {
+import javax.swing.JPanel;
+
+public class ConfigurationGUI extends JPanel {
 
 }
