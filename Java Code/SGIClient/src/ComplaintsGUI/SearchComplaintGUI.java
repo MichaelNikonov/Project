@@ -1,5 +1,8 @@
 package ComplaintsGUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -40,7 +43,17 @@ public class SearchComplaintGUI extends JPanel {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setBounds(281, 132, 108, 23);
 		add(btnCancel);
+		btnCancel.addActionListener(new CancelAction());
 
 	}
 
+}
+class CancelAction implements ActionListener {
+
+	public void actionPerformed(ActionEvent e){
+	
+		//TODO : ADD Switching to previous Complaint relationship GUI
+		
+	}
+	
 }

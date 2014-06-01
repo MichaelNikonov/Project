@@ -7,8 +7,7 @@ import ocsf.client.*;
 public class ComplaintController {
 
   boolean addNewComplaint(Complaint ComplaintData){
-	  //if sending Complaint data was successful return true
-	  //else return false
+	  //TODO : add Connection to Server ,send message .
 	  ObservableClient conn = new ObservableClient("localhost",4000);
 	  try {conn.sendToServer((Object)ComplaintData);}
 	  catch(IOException e){}
