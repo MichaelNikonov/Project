@@ -83,7 +83,7 @@ public class ShowAllComplaints extends javax.swing.JPanel {
         btnCancel.setText("Cancel");
 
         message.setForeground(new java.awt.Color(255, 0, 0));
-        message.setText("jLabel1");
+        message.setText("message line");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         layout.setHorizontalGroup(
