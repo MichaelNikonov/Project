@@ -11,13 +11,18 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import client.controllers.ComplaintController;
+
 
 public class ShowAllComplaints extends javax.swing.JPanel {
 
     /**
      * Creates new form ShowAllComplaints
      */
-    public ShowAllComplaints() {
+	
+	ComplaintController controller;
+    public ShowAllComplaints(ComplaintController controller) {
+    	this.controller = controller;
         initComponents();
     }
 
@@ -153,4 +158,7 @@ public class ShowAllComplaints extends javax.swing.JPanel {
     private javax.swing.JLabel message;
     private javax.swing.JTable tblComplaints;
     // End of variables declaration//GEN-END:variables
+	public javax.swing.JTable getTblComplaints() {
+		return tblComplaints;
+	}
 }

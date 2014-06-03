@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.swing.table.DefaultTableModel;
+
+import ComplaintsGUI.ShowAllComplaints;
+
 import client.main.IClient;
 import client.main.MainClient;
 import ocsf.client.*;
@@ -16,31 +20,90 @@ import sgi.entities.ComplaintType;
 import sgi.entities.Employee;
 import sgi.entities.IComplaint;
 
-public class ComplaintController implements IClient,IComplaint{
+public class ComplaintController implements IClient, IComplaint{
 	
 	
-	private Complaint[] ServerResponse;
-	private IClient clientForResponse;
+	private ArrayList<Complaint> complaitBuffer=null; //Complaint buffer for multiple received complaints 
 	private MainClient clientForSend;
+	private IClient iclient;
+	private Complaint complaintTemp=null ; //temporary variable for last received Complaint id
 	public void ComplainController(MainClient client){
 		this.clientForSend =  client;
+		iclient = this;
+
 		
 	}
-
+	
+ /**
+  * Basic sending function to send data to server ,in case of succession returns true,otherwise returns false with exception
+  * @param ComplaintData   - Complaint data to be sent to server 
+  * @param req - kind of request
+  * @throws IOException
+  */
+ private void sendMessage (Complaint ComplaintData,REQUESTS req ) throws IOException{
+	 
+	  DataPackage toSend = new DataPackage(req,(Object)ComplaintData);
+	  clientForSend.handleMessageFromClientUI((Object)toSend,iclient );
+	
+ }
+/**
+ * Simple function that requests the server to add new row in complaint table,once added,server must return the new complaint ID
+ * in this case the "data" parameter is null and request is GET_ID_FOR_NEW_COMPLAINT
+ *
+ * @return - true in case of successful sending,false otherwise.
+ */
+ public boolean addNewComplaint(){ 
+	 REQUESTS req = RequestController.REQUESTS.GET_ID_FOR_NEW_COMPLAINT;
+	  try {
+		  sendMessage(null,req);
+		  return true;
+	  }
+	  catch (IOException e){
+		  
+		  System.out.println(e.getMessage());
+		  return false;
+	  }
+	 
+ }
+ /**
+  * Little bit advanced function,that sends the whole new complaint data that received from GUI.Function must be called after
+  * id for new complaint has been received
+  * @param ComplaintData - Complaint parameters,including id,date created,title,costumer added..
+  * @return - true in case of successful sending ,false otherwise
+  */
   public boolean addNewComplaint(Complaint ComplaintData){
 	  REQUESTS req = RequestController.REQUESTS.ADD_NEW_COMPLAINT;
-	  DataPackage toSend = new DataPackage(req,(Object)ComplaintData);
-	  try { 
-		     clientForSend.handleMessageFromClientUI((Object)toSend,null );
-		     return true; 
-		    } 
-	  catch (Exception e){
-		                   System.out.println(e.getMessage());
-		                   return false;
-		   }
+	  try {
+		  sendMessage(ComplaintData,req);
+		  return true;
+	  }
+	  catch (IOException e){
+		  
+		  System.out.println(e.getMessage());
+		  return false;
+	  }
 	  
+  }  
+  
+  
+  
+ public void  getAllComplaints(){
+	  REQUESTS req = RequestController.REQUESTS.GET_ALL_COMPLAINTS;
+	  try { sendMessage(null,req);
+	  while (complaitBuffer==null){} //wait until message from server has not been received.
+	  ShowAllComplaints allComplaints = new  ShowAllComplaints(this);//create new empty list 
+	  DefaultTableModel model = (DefaultTableModel)allComplaints.getTblComplaints().getModel();
+	  //create loop for adding rows to empty table
+	   }
+	  catch (IOException e){
+		  System.out.println(e.getMessage());
+		  complaitBuffer=null;
+	  }
 	  
   }
+  
+  
+  
   Complaint[] SearchCompaint(String startDate){
 	  Object Complaints = new Object();
 	  //send message to database about which date we want the complaint
@@ -54,24 +117,20 @@ public class ComplaintController implements IClient,IComplaint{
 	  //return Complaint array 
 	  return (Complaint[])Complaints;
   }
+  
+  
+  
+  
   boolean replyToComplaint(Complaint ComplaintData){
 	  //select complaint from list,reply to it and change ComplaintData.compensation;
 	  //return true if operation was successful 
 	  return false;
 }
-  Complaint[] getAllComplaints(){
-	  Object Complaints = new Object();
-	  //send message to database and select all avialable complaints,return the list
-	  return (Complaint[])Complaints;
-  }
+
 
 @Override
-public int getId() {//complaint id 
-	REQUESTS req = RequestController.REQUESTS.GET_ID_FOR_NEW_COMPLAINT;
-	 DataPackage toSend = new DataPackage(req,null);
-	 
-	 //TODO : need server response method to get complaint id 
-	 return 0;
+public int getId() {//get last new added complaint id 
+	return complaintTemp.getId();
 	 
 }
 
@@ -153,10 +212,40 @@ public void setReplyDateTime(java.util.Date value) {
 }
 
 @Override
+/**
+ * Function for handling answers from server 
+ */
 public void getResults(Object msg) {
-	// TODO Auto-generated method stub
+	DataPackage temp = (DataPackage)msg;
+	REQUESTS req  = temp.getRequestType();
+	switch(req){
+	/**
+	 * in case that server returned ADD_NEW_COMPLAINT,that means that server received 
+	 * our new complaint id Request,returned us the id for new complaint
+	 * ,and ready for receiving the complaint whole data. 
+	 */
+	case  ADD_NEW_COMPLAINT : {complaintTemp =(Complaint) temp.getData();break;} 
+	/**
+	 * in other cases server returning an ArrayList of complaints that must be displayed in GUI.
+	 */
+	case GET_ALL_COMPLAINTS : {complaitBuffer = (ArrayList<Complaint>) temp.getData();break;}
+	case GET_UNSEEN_COMPLAINTS : {complaitBuffer = (ArrayList<Complaint>) temp.getData();break;}
+	case GET_UNADDRESSED_COMPLAINTS:{complaitBuffer = (ArrayList<Complaint>) temp.getData();break;}
+	}
 	
 }
+public Complaint getComplaintTemp() {
+	return complaintTemp;
+}
+
+public void setComplaintTemp(Complaint complaintTemp) {
+	this.complaintTemp = complaintTemp;
+}
+
+public ArrayList<Complaint> getComplaitBuffer() {
+	return complaitBuffer;
+}
+
 }
   
 

@@ -10,6 +10,8 @@ import javax.swing.DropMode;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ViewComplaintGUI extends JPanel {
 	private JTextField txtUsename;
@@ -34,16 +36,20 @@ public class ViewComplaintGUI extends JPanel {
 		lblComplaintTitle.setBounds(58, 31, 135, 14);
 		add(lblComplaintTitle);
 		
-		JButton btnCompensate = new JButton("Compensate");
-		btnCompensate.setBounds(509, 375, 117, 23);
+		JButton btnCompensate = new JButton("Compensate/Reply");
+		btnCompensate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnCompensate.setBounds(490, 375, 149, 23);
 		add(btnCompensate);
 		
 		JButton btnCloseComplaint = new JButton("Close Complaint");
-		btnCloseComplaint.setBounds(509, 429, 117, 23);
+		btnCloseComplaint.setBounds(509, 409, 117, 23);
 		add(btnCloseComplaint);
 		
 		JButton btnBack = new JButton("Back");
-		btnBack.setBounds(509, 484, 117, 23);
+		btnBack.setBounds(509, 443, 117, 23);
 		add(btnBack);
 		
 		JLabel lblUsename = new JLabel("Usename");
