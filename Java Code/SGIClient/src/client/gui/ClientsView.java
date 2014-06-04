@@ -104,7 +104,7 @@ public class ClientsView extends JPanel
 		for (int i = 0; i < _clients.size(); i ++)
 		{
 			dataValues[i] = new String[] {_clients.get(i).getId()+"", _clients.get(i).getFirstName(), _clients.get(i).getLastName(),
-					_clients.get(i).getPhone(), _clients.get(i).getEmail(), _clients.get(i).getUsername()};
+					_clients.get(i).getPhone(), _clients.get(i).getEmail(), _clients.get(i).getUser().getUsername()};
 		}	
 		return dataValues;
 	}
