@@ -89,5 +89,5 @@ public class ServerGUI extends JFrame {
     	_lblServerStatus.setText("Server status: on-line");
         _lblServerStatus.setForeground(new Color(0,255,0));
     }
-    
+     
 }
