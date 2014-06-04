@@ -35,10 +35,10 @@ public class SGIImage implements ISGIImage , Serializable {
 		try {
 			_image = ImageIO.read(new File(imageFile));
 			imageToBytes();
-		} catch (Exception e) { 
-			System.out.println("SGI Image: " + e.getMessage());
-			System.out.println("File name: " + imageFile);
 			_image = null;
+		} catch (Exception e) { 
+			_image = null;
+			imageInByte = null;
 		}
 	}
 
@@ -48,6 +48,7 @@ public class SGIImage implements ISGIImage , Serializable {
 		_datetime = dt;
 		_image = image;
 		imageToBytes();
+		_image = null;
 	}
 
 	public int getId() { return _id; }
@@ -70,15 +71,18 @@ public class SGIImage implements ISGIImage , Serializable {
 		try {
 			_image = ImageIO.read(new File(imageFile));
 			imageToBytes();
+			_image = null;
 		} catch (Exception e) {
 			System.out.println("SGI Image: " + e.getMessage());
 			_image = null;
+			imageToBytes = null;
 		}
 	}
 
 	public void setImage(BufferedImage img) {
 		_image = img;
 		imageToBytes();
+		_image = null;
 	}
 
 	private void imageToBytes() {
