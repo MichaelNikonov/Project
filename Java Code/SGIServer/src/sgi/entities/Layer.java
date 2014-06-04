@@ -33,7 +33,11 @@ public class Layer implements ILayer , Serializable {
 		try {
 			_layer = ImageIO.read(new File(layerFile));
 			imageToBytes();
-		} catch (Exception e) { _layer = null; }
+			_layer = null;
+		} catch (Exception e) { 
+			_layer = null;
+			imageInByte = null;
+		}
 	}
 
 	public Layer(int id, int imageid, LayerType type, BufferedImage layerImg) {
@@ -42,6 +46,7 @@ public class Layer implements ILayer , Serializable {
 		_type = type;
 		_layer = layerImg;
 		imageToBytes();
+		_layer = null;
 	}
 	// End constructors
 	
@@ -49,17 +54,32 @@ public class Layer implements ILayer , Serializable {
 	public int getId() { return _id; }
 	public int getImageId() { return _imageid; }
 	public LayerType getType() { return _type; }
-	public BufferedImage getLayerImage() { return _layer; }
+	public BufferedImage getLayerImage() { 
+		// convert byte array back to BufferedImage
+		InputStream in = new ByteArrayInputStream(imageInByte);
+		try {
+			BufferedImage bImageFromConvert = ImageIO.read(in);
+			return bImageFromConvert;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public byte[] getImageBytes() { return imageInByte; }
 	public void setImage(String layerFile) {
 		try {
 			_layer = ImageIO.read(new File(layerFile));
 			imageToBytes();
-		} catch (Exception e) { _layer = null; }
+			_layer = null;
+		} catch (Exception e) { 
+			_layer = null; 
+			imageInByte = null;
+		}
 	}
 	public void setIayer(BufferedImage layerImg) {
 		_layer = layerImg;
 		imageToBytes();
+		_layer = null;
 	}
 	
 	private void imageToBytes() {
