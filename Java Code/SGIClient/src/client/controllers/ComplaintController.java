@@ -1,7 +1,6 @@
 package client.controllers;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
@@ -9,9 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import ComplaintsGUI.ComplaintWorkerGUI;
 import ComplaintsGUI.ShowAllComplaints;
 
-import client.main.IClient;
+import client.main.ISGIClient;
 import client.main.MainClient;
-import ocsf.client.*;
 import server.controllers.RequestController;
 import server.controllers.RequestController.REQUESTS;
 import server.models.DataPackage;
@@ -20,15 +18,14 @@ import sgi.entities.Complaint;
 import sgi.entities.ComplaintType;
 import sgi.entities.Employee;
 import sgi.entities.IComplaint;
-import sgi.entities.Complaint;
 
 
-public class ComplaintController implements IClient, IComplaint{
+public class ComplaintController implements ISGIClient, IComplaint{
 	
 	
 	private ArrayList<Complaint> complaintBuffer=null; //Complaint buffer for multiple received complaints 
 	private MainClient clientForSend;
-	private IClient iclient;
+	private ISGIClient iclient;
 	private ComplaintWorkerGUI ComplaintWorkerGUI;
 	private  ShowAllComplaints allComplaintsList;
 	public ComplaintController(MainClient client,ComplaintWorkerGUI parentGUI){

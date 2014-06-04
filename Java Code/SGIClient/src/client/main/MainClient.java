@@ -2,7 +2,7 @@ package client.main;
 
 import java.io.IOException;
 
-import ocsf.client.*;
+import ocsf.client.AbstractClient;
 
 public class MainClient extends AbstractClient
 {
