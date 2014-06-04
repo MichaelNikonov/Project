@@ -1,0 +1,48 @@
+package client.controllers;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import client.gui.ConfigurationGUI;
+import client.main.MainClient;
+import static java.lang.System.out;
+
+public class ConfigurationController 
+{
+	private MainClient _client;
+	private ConfigurationGUI _view;
+	
+	public ConfigurationController(MainClient client)
+	{
+		_client = client;
+	}
+	
+	public ConfigurationGUI getView()
+	{
+		try
+		{
+			if (_view == null)
+			{
+				if (_client == null)
+					_view = new ConfigurationGUI("localhost", 555);
+				else
+					_view = new ConfigurationGUI(_client.getHost(), _client.getPort());
+				_view.save.addActionListener
+				(
+						new ActionListener() 
+						{
+							public void actionPerformed(ActionEvent e) 
+							{
+								out.println("saved");
+								
+							}
+						}
+					);
+			}
+			return view;
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+	}
+}

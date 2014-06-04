@@ -39,7 +39,7 @@ public class ShowLogoutWindow extends JPanel
 		this.text = new JLabel (text);
 		this.userName = new JLabel (userName);
 		this.button = new JButton (buttonContent);
-		inPanel = new JPanel (new GridLayout(1, 3, 1, 0));
+		inPanel = new JPanel (new GridLayout(1, 3, 1, 1));
 		inPanel.add (this.text);
 		inPanel.add (this.userName);
 		inPanel.add (this.button);

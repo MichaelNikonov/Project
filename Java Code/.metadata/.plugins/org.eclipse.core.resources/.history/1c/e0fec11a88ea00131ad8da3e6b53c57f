@@ -1,0 +1,47 @@
+package client.gui;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import sgi.entities.IClient;
+
+public class ClientsView extends JPanel
+{
+	private IClient[] _clients;
+	private	JTable table;
+	private	JScrollPane scrollPane;
+	
+	public ClientsView(IClient[] clients)
+	{
+		_clients = clients;
+		initialize()
+	}
+	
+	public void initialize()
+	{
+		JPanel leftPanel = new JPanel (new GridLayout(1, 2, 1, 1));
+		String columnNames[] = { "Column 1", "Column 2", "Column 3" };
+		String dataValues[][] =
+		{
+			{ "12", "234", "67" },
+			{ "-123", "43", "853" },
+			{ "93", "89.2", "109" },
+			{ "279", "9033", "3092" }
+		};
+
+		table = new JTable( dataValues, columnNames );
+		scrollPane = new JScrollPane( table );
+		leftPanel.add( scrollPane, BorderLayout.CENTER );
+		
+		JPanel rightPanel = new JPanel (new GridLayout(6, 1, 1, 1));
+		
+		
+		
+		this.add(leftPanel);
+		this.add(rightPanel);
+	}
+}

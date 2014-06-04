@@ -1,0 +1,17 @@
+package client.controllers;
+
+import javax.swing.JFrame;
+
+import client.gui.mainGui;
+
+public class mainTest 
+{
+
+	public static void main (String args[])
+	{
+		mainGui gui = new mainGui();
+		gui.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		gui.setSize( 300,180 ); // set frame size
+		gui.setVisible( true ); // display frame
+	}
+}

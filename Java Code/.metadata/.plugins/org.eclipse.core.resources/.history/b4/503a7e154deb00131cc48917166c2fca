@@ -1,0 +1,115 @@
+package client.gui;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import sgi.entities.Client;
+import sgi.entities.IClient;
+
+public class ClientsView extends JPanel
+{
+	private ArrayList<Client> _clients;
+	public	JTable table;
+	private	JScrollPane scrollPane;
+	public JButton update;
+	public JButton add;
+	public JButton delete;
+	public JTextField firstName;
+	public JTextField lastName;
+	public JTextField phone;
+	public JTextField email;
+	public JTextField userName;
+	public JLabel errorLabel;
+	private final int _numOfRows = 6;
+	
+	public ClientsView(ArrayList<Client> clients)
+	{
+		_clients = clients;
+		initialize();
+	}
+	
+	/**
+	 * Initialize UI components
+	 */
+	public void initialize()
+	{
+		JPanel leftPanel = new JPanel (new GridLayout(1, 2, 1, 1));
+		String columnNames[] = {"ID", "First Name", "Last Name", "Phone", "Email", "User Name"  };
+		String dataValues[][] = createTable();
+
+		table = new JTable( dataValues, columnNames );
+		scrollPane = new JScrollPane( table );
+		leftPanel.add( scrollPane, BorderLayout.CENTER );
+		
+		JPanel rightPanel = new JPanel (new GridLayout(2, 1, 1, 1));
+		JPanel buttons = new JPanel (new GridLayout(1, 3, 1, 1));
+		JPanel details = new JPanel (new GridLayout(8, 2, 1, 1));
+		
+		update = new JButton("Update");
+		add = new JButton("Add");
+		delete = new JButton("Delete");
+		buttons.add(update);
+		buttons.add(add);
+		buttons.add(delete);
+		
+		details.add(new JLabel(""));
+		firstName = new JTextField ("");
+		lastName = new JTextField ("");
+		phone = new JTextField ("");
+		email = new JTextField ("");
+		userName = new JTextField ("");
+		details.add(new JLabel("First Name:"));
+		details.add(firstName);
+		details.add(new JLabel("Last Name:"));
+		details.add(lastName);
+		details.add(new JLabel("Phone number:"));
+		details.add(phone);
+		details.add(new JLabel("Email:"));
+		details.add(email);
+		details.add(new JLabel("User Name:"));
+		details.add(userName);
+		errorLabel = new JLabel("13");
+		errorLabel.setForeground(Color.red);
+		details.add (errorLabel);
+		
+		rightPanel.add (details);
+		rightPanel.add (buttons);
+		
+		this.add(leftPanel);
+		this.add(rightPanel);
+	}
+	
+	/**
+	 * Creates JTable
+	 * @return String[][]
+	 */
+	private String[][] createTable()
+	{
+		String dataValues[][] = new String[_clients.size()][_numOfRows];
+		for (int i = 0; i < _clients.size(); i ++)
+		{
+			dataValues[i] = new String[] {_clients.get(i).getFirstName(), _clients.get(i).getLastName(),
+					_clients.get(i).getPhone(), _clients.get(i).getEmail(), _clients.get(i).getUsername()};
+		}		
+		return dataValues;
+	}
+	
+	/**
+	 * Updates the list of clients
+	 * @param clients list of clients
+	 */
+	public void SetClients(ArrayList<Client> clients)
+	{
+		if (clients != null)
+			_clients = clients;
+	}	
+}

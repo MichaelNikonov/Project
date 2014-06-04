@@ -1,0 +1,31 @@
+package client.controllers;
+
+import client.gui.ClientConfigurationView;
+import client.main.MainClient;
+
+public class ConfigurationController 
+{
+	private MainClient _client;
+	private ClientConfigurationView view;
+	
+	public ConfigurationController(MainClient client)
+	{
+		_client = client;
+	}
+	
+	public ClientConfigurationView getView()
+	{
+		try
+		{
+			if (view == null)
+			{
+				
+			}
+			return view;
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+	}
+}

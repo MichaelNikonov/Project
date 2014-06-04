@@ -1,0 +1,326 @@
+package client.controllers;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import static java.lang.System.out;
+import server.controllers.RequestController;
+import sgi.entities.Client;
+import sgi.entities.IClient;
+import client.gui.ClientsView;
+import client.gui.ShowLoginWindow;
+import client.main.ISGIClient;
+import client.main.MainClient;
+
+public class ClientController implements IClientController, ISGIClient
+{
+	MainClient _client;
+	private ClientsView _clientsView;
+	private boolean _msgReceived = false;
+	private RequestController.REQUESTS _requestType;
+	private ArrayList<Client> _clients;
+	
+	public ClientController (MainClient client)
+	{
+		_client = client;
+	}
+	
+	/**
+	 * Returns an instance of a ClientsView
+	 */
+	public ClientsView getClientsView()
+	{
+		try
+		{
+			if (_clientsView == null)
+			{
+				_clientsView = new ClientsView(SearchClients());
+				_clientsView.table.getSelectionModel().addListSelectionListener(
+						new ListSelectionListener() 
+						{
+							public void valueChanged(ListSelectionEvent lse)
+							{
+								if (!lse.getValueIsAdjusting()) 
+								{
+									_clientsView.titleLabel.setText(" " + 
+												_clientsView.table.getValueAt(_clientsView.table.getSelectedRow(), 0));
+									_clientsView.firstName.setText(_clientsView.table.getValueAt(_clientsView.table.getSelectedRow(), 1).toString());
+									_clientsView.lastName.setText(_clientsView.table.getValueAt(_clientsView.table.getSelectedRow(), 2).toString());
+									_clientsView.phone.setText(_clientsView.table.getValueAt(_clientsView.table.getSelectedRow(), 3).toString());
+									_clientsView.email.setText(_clientsView.table.getValueAt(_clientsView.table.getSelectedRow(), 4).toString());
+									_clientsView.userName.setText(_clientsView.table.getValueAt(_clientsView.table.getSelectedRow(), 5).toString());
+								}
+							}
+						});
+				
+				_clientsView.add.addActionListener
+				(
+						new ActionListener() 
+						{
+							public void actionPerformed(ActionEvent e) 
+							{
+								_clientsView.errorLabel.setText("");
+								if (checkFields())
+								{
+									out.println("add");
+									Client client = new Client (0, _clientsView.firstName.getText(),
+											_clientsView.lastName.getText(), _clientsView.phone.getText(),
+											_clientsView.email.getText(), _clientsView.userName.getText());
+									if (AddClient (client))
+									{
+										_clients.add(client);
+										//_clientsView.SetClients(_clients);
+										_clientsView.dm.addRow(new String[] {client.getId()+"", client.getFirstName(), client.getLastName(),
+												client.getPhone(), client.getEmail(), client.getUsername()});
+									}
+									_clientsView.table.setRowSelectionInterval(-1, -1);
+								}
+							}
+						}
+				);
+				
+				_clientsView.delete.addActionListener
+				(
+						new ActionListener() 
+						{
+							public void actionPerformed(ActionEvent e) 
+							{
+								_clientsView.errorLabel.setText("");
+								if (checkFields())
+								{
+									out.println("delete");
+									Client client = new Client (Integer.parseInt(_clientsView.titleLabel.getText().trim()), _clientsView.firstName.getText(),
+											_clientsView.lastName.getText(), _clientsView.phone.getText(),
+											_clientsView.email.getText(), _clientsView.userName.getText());
+									if (UpdateClient (client))
+									{									
+										for(int i=0; i<_clientsView.dm.getRowCount(); i++)
+										    if(_clientsView.dm.getValueAt(i, 0).equals(_clientsView.titleLabel.getText().trim()))
+										    {
+										    	_clientsView.dm.removeRow(i);
+										        break;
+										    }
+										for (int i=0; i < _clients.size(); i ++)
+										{
+											if (_clients.get(i).getId() == client.getId())
+											{
+												_clients.remove(i);
+												//_clientsView.SetClients(_clients);
+												break;
+											}
+										}
+									}
+								}
+							}
+						}
+				);
+				
+				_clientsView.update.addActionListener
+				(
+						new ActionListener() 
+						{
+							public void actionPerformed(ActionEvent e) 
+							{
+								_clientsView.errorLabel.setText("");
+								if (checkFields())
+								{
+									out.println("update");
+									Client client = new Client (Integer.parseInt(_clientsView.titleLabel.getText().trim()), _clientsView.firstName.getText(),
+											_clientsView.lastName.getText(), _clientsView.phone.getText(),
+											_clientsView.email.getText(), _clientsView.userName.getText());
+									if (DeleteClient (client))
+									{									
+										int row = -1;
+										for(int i=0; i<_clientsView.dm.getRowCount(); i++)
+										{
+										    if(_clientsView.dm.getValueAt(i, 0).equals(_clientsView.titleLabel.getText().trim()))
+										    {
+										    	_clientsView.dm.removeRow(i);
+										    	_clientsView.dm.addRow(new String[] {client.getId()+"", client.getFirstName(), client.getLastName(),
+														client.getPhone(), client.getEmail(), client.getUsername()});
+										        break;
+										    }
+										}
+										for (int i=0; i < _clients.size(); i ++)
+										{
+											if (_clients.get(i).getId() == client.getId())
+											{
+												_clients.remove(i);
+												_clients.add(client);
+												_clientsView.SetClients(_clients);
+												break;
+											}
+										}
+									}
+								}
+							}
+						}
+				);
+			}
+			return _clientsView;
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+	}
+	
+	/**
+	 * Checks if the mandatory fields are filled in
+	 * @return true if all fields are filled in, false otherwise.
+	 */
+	private boolean checkFields()
+	{
+		if (_clientsView != null)
+		{
+			if (_clientsView.firstName.getText().equals(""))
+			{
+				_clientsView.errorLabel.setText("Please insert first name");
+				return false;
+			}
+			if (_clientsView.firstName.getText().equals(""))
+			{
+				_clientsView.errorLabel.setText("Please insert last name");
+				return false;
+			}
+			if (_clientsView.firstName.getText().equals(""))
+			{
+				_clientsView.errorLabel.setText("Please insert user name");
+				return false;
+			}
+			return true;
+		}
+		return false;	
+	}
+	
+	/**
+	 * Updates client in DB
+	 * @param client the client to be updated
+	 */
+	@Override
+	public boolean UpdateClient(Client client) 
+	{
+//		ObjectMsg msg = new ObjectMsg (null, RequestController.REQUESTS.UPDATE_CLIENT);
+//		try 
+//		{
+//			_requestType = RequestController.REQUESTS.UPDATE_CLIENT;
+//			_msgReceived = false;
+//			//_client.handleMessageFromClientUI(msg, this);
+//			while (!_msgReceived)
+//			{
+//				wait(3);
+//			}
+		return true;
+//		} 
+//		catch (Exception e1) 
+//		{
+//			e1.printStackTrace();
+//			return false;
+//		}
+	}
+
+	/**
+	 * Returns a list of clients
+	 * @returns list of clients
+	 */
+	@Override
+	public ArrayList<Client> SearchClients() 
+	{
+//		ObjectMsg msg = new ObjectMsg (null, RequestController.REQUESTS.GET_CLIENTS);
+//		try 
+//		{
+//			_requestType = RequestController.REQUESTS.GET_CLIENTS;
+//			_msgReceived = false;
+//			//_client.handleMessageFromClientUI(msg, this);
+//			while (!_msgReceived)
+//			{
+//				wait(3);
+//			}
+//		} 
+//		catch (Exception e1) 
+//		{
+//			e1.printStackTrace();
+//		}
+		
+		//Only for test
+		_clients = new ArrayList<Client>();
+		_clients.add(new Client(0, "yana", "nik", "0321234", "sdf@dsgf.cxv", "ynikitch"));
+		_clients.add(new Client(0, "yana2", "nik2", "03212324", "sdf@dsgf.cxv", "ynikitch2"));
+		return _clients;
+	}
+
+	/**
+	 * Adds new client
+	 * @param client the client to be added
+	 */
+	@Override
+	public boolean AddClient(Client client) 
+	{
+//		ObjectMsg msg = new ObjectMsg (null, RequestController.REQUESTS.ADD_CLIENT);
+//		try 
+//		{
+//			_requestType = RequestController.REQUESTS.ADD_CLIENT;
+//			_msgReceived = false;
+//			//_client.handleMessageFromClientUI(msg, this);
+//			while (!_msgReceived)
+//			{
+//				wait(3);
+//			}
+			return true;
+//		} 
+//		catch (Exception e1) 
+//		{
+//			e1.printStackTrace();
+//			return false;
+//		}
+	}
+
+	/**
+	 * Wait for answer from the client
+	 * @return User object
+	 */
+	@Override
+	public void getResults(Object msg)
+	{
+		try
+		{
+			//ObjectMsg object = (ObjectMsg)msg;
+			//_user = (User)object.GetData(); 
+			_msgReceived = true;
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+	}
+
+	/**
+	 * Deletes client from DB
+	 * @param client the client to be deleted
+	 */
+	@Override
+	public boolean DeleteClient(Client client) 
+	{
+//		ObjectMsg msg = new ObjectMsg (null, RequestController.REQUESTS.DELETE_CLIENT);
+//		try 
+//		{
+//			_requestType = RequestController.REQUESTS.DELETE_CLIENT;
+//			_msgReceived = false;
+//			//_client.handleMessageFromClientUI(msg, this);
+//			while (!_msgReceived)
+//			{
+//				wait(3);
+//			}
+			return true;
+//		} 
+//		catch (Exception e1) 
+//		{
+//			e1.printStackTrace();
+//			return false;
+//		}
+	}
+}

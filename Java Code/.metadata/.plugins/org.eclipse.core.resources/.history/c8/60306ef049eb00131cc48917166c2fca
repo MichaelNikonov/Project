@@ -1,0 +1,13 @@
+package client.controllers;
+
+import java.util.ArrayList;
+
+import sgi.entities.IClient;
+
+public interface IClientController 
+{
+	boolean UpdateClient (IClient client);
+	ArrayList<IClient> SearchClients ();
+	boolean AddClient (IClient client);
+	boolean DeleteClient (IClient client);
+}

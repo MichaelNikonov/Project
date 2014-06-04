@@ -1,0 +1,36 @@
+package client.controllers;
+
+import client.gui.ShowLoginWindow;
+import client.main.IClient;
+import client.main.MainClient;
+
+public class ClientController implements IClientController, IClient
+{
+	MainClient _client;
+	private ShowLoginWindow _loginView;
+	
+	public ClientController (MainClient client)
+	{
+		_client = client;
+	}
+	
+	@Override
+	public void getResults(Object msg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean UpdateClient(sgi.entities.IClient client) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public sgi.entities.IClient[] SearchClients(String ClientFirstName,
+			String ClientLastName, String ClientEmail, String ClientPhone) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

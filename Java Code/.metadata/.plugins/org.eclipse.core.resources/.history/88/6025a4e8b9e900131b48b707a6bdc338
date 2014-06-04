@@ -1,0 +1,12 @@
+package client.controllers;
+
+import client.gui.mainGui;
+
+public class mainTest 
+{
+
+	public static void main (String args[])
+	{
+		mainGui gui = new mainGui();
+	}
+}

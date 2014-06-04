@@ -1,0 +1,20 @@
+package client.gui;
+
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+
+public class ClientConfigurationView extends JPanel
+{
+	
+	public ClientConfigurationView()
+	{
+		initialize();
+	}
+
+	private void initialize()
+	{
+		JPanel inPanel = new JPanel (new GridLayout(3, 2, 1, 1));
+		
+	}
+}

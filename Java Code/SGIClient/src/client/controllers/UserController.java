@@ -3,15 +3,16 @@ package client.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
+import static java.lang.System.out;
 import ocsf.client.ObservableClient;
+import server.controllers.RequestController;
 import sgi.entities.User;
 import client.gui.ShowLoginWindow;
 import client.gui.ShowLogoutWindow;
-import client.main.IClient;
+import client.main.ISGIClient;
 import client.main.MainClient;
 
-public class UserController implements IUserController, IClient
+public class UserController implements IUserController, ISGIClient
 {
 	private ShowLogoutWindow _logoutView;
 	private ShowLoginWindow _loginView;
@@ -23,6 +24,14 @@ public class UserController implements IUserController, IClient
 	public UserController (MainClient client)
 	{
 		_user = null;
+		_logoutView = null;
+		_loginView = null;
+		_client = client;
+	}
+	
+	public UserController (MainClient client, User user)
+	{
+		_user = user;
 		_logoutView = null;
 		_loginView = null;
 		_client = client;
@@ -47,6 +56,7 @@ public class UserController implements IUserController, IClient
 					{
 						public void actionPerformed(ActionEvent e) 
 						{
+							//out.println("logout");
 							LogOut();
 						}
 					}
@@ -81,20 +91,21 @@ public class UserController implements IUserController, IClient
 							if (userName.trim().equals (""))
 							{
 								_loginView.errorLabel.setText ("Enter user name!");
-								_loginView.button.setEnabled(false);
+								_loginView.button.setEnabled(true);
 								return;
 							}
 							if (password.trim().equals (""))
 							{
 								_loginView.errorLabel.setText ("Enter password!");
-								_loginView.button.setEnabled(false);
+								_loginView.button.setEnabled(true);
 								return;
 							}
+							//out.println("login");
 							res = LogIn(userName, password);
 							if (!res)
 							{
 								_loginView.errorLabel.setText ("Invalid Password!");
-								_loginView.button.setEnabled(false);
+								_loginView.button.setEnabled(true);
 							}
 							else 
 								_loggedIn = true;
@@ -119,11 +130,7 @@ public class UserController implements IUserController, IClient
 	@Override
 	public boolean LogIn(String userName, String password) 
 	{
-		/**
-		 * new object
-		 * ObjectMsg msg = new ObjectMsg (null, msgs.GetUser);
-		 * 
-		 */
+		//ObjectMsg msg = new ObjectMsg (null, RequestController.REQUESTS.LOGIN_USER);
 		try 
 		{
 			_msgReceived = false;

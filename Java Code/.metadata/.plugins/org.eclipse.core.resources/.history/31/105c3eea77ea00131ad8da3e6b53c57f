@@ -1,0 +1,9 @@
+package client.controllers;
+
+import sgi.entities.IClient;
+
+public interface IClientController 
+{
+	boolean UpdateClient(IClient client);
+	IClient[] SearchClients(String ClientFirstName, String ClientLastName, String ClientEmail, String ClientPhone);
+}

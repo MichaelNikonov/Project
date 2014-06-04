@@ -1,0 +1,49 @@
+package client.controllers;
+
+import client.gui.ShowLoginWindow;
+import client.main.IClient;
+import client.main.MainClient;
+
+public class ClientController implements IClientController, IClient
+{
+	MainClient _client;
+	private ShowLoginWindow _loginView;
+	private boolean _msgReceived = false;
+	
+	public ClientController (MainClient client)
+	{
+		_client = client;
+	}
+	
+	/**
+	 * Wait for answer from the client
+	 * @return User object
+	 */
+	@Override
+	public void getResults(Object msg)
+	{
+		try
+		{
+			//ObjectMsg object = (ObjectMsg)msg;
+			//_user = (User)object.GetData();
+			_msgReceived = true;
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+	}
+	@Override
+	public boolean UpdateClient(sgi.entities.IClient client) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public sgi.entities.IClient[] SearchClients(String ClientFirstName,
+			String ClientLastName, String ClientEmail, String ClientPhone) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,32 @@
+package client.controllers;
+
+import client.gui.ConfigurationGUI;
+import client.main.MainClient;
+
+public class ConfigurationController 
+{
+	private MainClient _client;
+	private ConfigurationGUI view;
+	
+	public ConfigurationController(MainClient client)
+	{
+		_client = client;
+	}
+	
+	public ConfigurationGUI getView()
+	{
+		try
+		{
+			if (view == null)
+			{
+				//view = new ConfigurationGUI(_client.getHost(), _client.getPort());
+				view = new ConfigurationGUI("123", 55);
+			}
+			return view;
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+	}
+}

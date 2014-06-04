@@ -1,0 +1,13 @@
+package client.gui;
+
+import javax.swing.JPanel;
+
+public class mainGui extends JPanel
+{
+
+	public mainGui ()
+	{
+		this.add (new ShowLoginWindow());
+		this.setVisible(true);
+	}
+}

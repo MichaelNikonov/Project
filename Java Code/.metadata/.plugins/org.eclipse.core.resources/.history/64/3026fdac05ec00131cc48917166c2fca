@@ -1,0 +1,42 @@
+package client.gui;
+
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class ConfigurationGUI extends JPanel
+{
+	public JTextField host;
+	public JTextField port;
+	public JButton save;
+	private String _host;
+	private int _port;
+	
+	public ConfigurationGUI(String host, int port)
+	{
+		initialize();
+	}
+	
+	/**
+	 * initialize UI components
+	 */
+	private void initialize()
+	{
+		JPanel inPanel = new JPanel(new GridLayout(1, 2, 1, 1));
+		
+		inPanel.add(new JLabel("Host: "));
+		host = new JTextField ("");
+		inPanel.add(host);
+		inPanel.add(new JLabel("Port: "));
+		port = new JTextField ("");
+		inPanel.add(port);
+		save = new JButton ("Save Changes");
+		inPanel.add(save);
+		
+		this.add(inPanel);
+		this.setVisible(true);
+	}
+}

@@ -6,7 +6,7 @@ import ocsf.client.*;
 
 public class MainClient extends AbstractClient
 {
-	private IClient _client;
+	private ISGIClient _client;
 	private Object _msg;
 	
 	public MainClient(String host, int port) throws IOException 
@@ -28,7 +28,7 @@ public class MainClient extends AbstractClient
 	   *
 	   * @param message The message from the UI.    
 	   */
-	  public void handleMessageFromClientUI(Object message, IClient client)
+	  public void handleMessageFromClientUI(Object message, ISGIClient client)
 	  {
 	    try
 	    {

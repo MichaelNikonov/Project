@@ -1,0 +1,17 @@
+package client.gui;
+
+import javax.swing.JFrame;
+
+import client.controllers.UserController;
+
+public class mainGui extends JFrame
+{
+
+	public mainGui ()
+	{
+		UserController userC = new UserController(null);
+		//this.add (userC.getLoginView());
+		this.add (userC.getLogoutView());
+		//this.setVisible(true);
+	}
+}
