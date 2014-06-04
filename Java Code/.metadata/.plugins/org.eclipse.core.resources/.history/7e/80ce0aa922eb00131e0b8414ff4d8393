@@ -1,0 +1,32 @@
+package server.main;
+
+import java.util.ArrayList;
+import java.util.Date;
+import server.database.Database;
+import server.models.*;
+import sgi.entities.*;
+
+public class ServerMain {
+
+	private static ServerConfiguration _config;
+	private static Database _db;
+	/**
+	 * @param args
+	 */
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) {
+		// Load configuration
+		_config = new ServerConfiguration();
+		// Initialize DB object
+		_db = new Database(_config.getHost(),_config.getDBName(),
+				_config.getSqlUsername(),_config.getSqlPassword());
+		Client temp = _db.getClient("dan");
+		temp.setLastName("A");
+		
+		if (_db.updateClient(temp)==1)
+			System.out.println("Client " + temp.getFirstName() + " updated!");
+		else
+			System.out.println("Client " + temp.getFirstName() + " NOT updated!");
+	}
+
+}

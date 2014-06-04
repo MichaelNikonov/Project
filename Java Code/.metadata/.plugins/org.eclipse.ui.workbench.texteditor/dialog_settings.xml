@@ -2,25 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="265" key="DIALOG_WIDTH"/>
-		<item value="145" key="DIALOG_Y_ORIGIN"/>
+		<item value="251" key="DIALOG_Y_ORIGIN"/>
+		<item value="705" key="DIALOG_X_ORIGIN"/>
 		<item value="373" key="DIALOG_HEIGHT"/>
-		<item value="795" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Tahoma|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Tahoma" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="" key="selection"/>
+		<item value="J" key="selection"/>
 		<list key="findhistory">
+			<item value="javax.swing.J"/>
 			<item value="public "/>
 			<item value="\s[{].+[}]"/>
 			<item value="[{].+[}]"/>
 			<item value="[{]"/>
 		</list>
 		<list key="replacehistory">
+			<item value="J"/>
 			<item value=""/>
 			<item value=";"/>
 		</list>

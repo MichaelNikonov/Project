@@ -6,5 +6,10 @@ public interface IClient {
 	String getLastName();
 	String getPhone();
 	String getEmail();
-	String getUsername();
+	User getUser();
+	void setFirstName(String value);
+	void setLastName(String value);
+	void setPhone(String value);
+	void setEmail(String value);
+	void setUser(User value);
 }

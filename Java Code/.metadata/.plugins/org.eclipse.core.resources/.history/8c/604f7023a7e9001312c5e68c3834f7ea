@@ -1,0 +1,16 @@
+package client.gui;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+public class JImageBox extends JPanel {
+
+	private BufferedImage _image;
+	
+	public JImageBox(String imgFile) {
+		
+	}
+	
+}

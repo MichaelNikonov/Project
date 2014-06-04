@@ -75,7 +75,7 @@ CREATE TABLE employees (
 
 CREATE TABLE online_users (
 	username VARCHAR(255) NOT NULL UNIQUE,
-	timedate DATETIME NOT NULL,
+	timedate DATETIME NOT NULL DEFAULT NOW(),
 	ip VARCHAR(17) NOT NULL
 );
 
@@ -122,7 +122,7 @@ CREATE TABLE purchases (
 	client_id INT NOT NULL,
 	p_type INT NOT NULL,
 	price FLOAT NOT NULL,
-	timedate DATETIME NOT NULL,
+	timedate DATETIME NOT NULL DEFAULT NOW(),
 	PRIMARY KEY (id),
 	FOREIGN KEY (image_id) REFERENCES images(id),
 	FOREIGN KEY (client_id) REFERENCES clients(id),
@@ -134,7 +134,7 @@ CREATE TABLE image_search_log (
 	image_date VARCHAR(10),
 	image_time VARCHAR(8),
 	client_id INT NOT NULL,
-	timedate DATETIME NOT NULL,
+	timedate DATETIME NOT NULL DEFAULT NOW(),
 	results INT NOT NULL,
 	FOREIGN KEY (client_id) REFERENCES clients(id)
 );
@@ -173,6 +173,7 @@ CREATE TABLE subscriptions (
 	s_type INT NOT NULL,
 	layer_type INT UNIQUE,
 	image_amount INT,
+	active BOOLEAN NOT NULL DEFAULT TRUE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (s_type) REFERENCES subscription_type(id),
 	FOREIGN KEY (layer_type) REFERENCES layer_type(id)
@@ -181,8 +182,8 @@ CREATE TABLE subscriptions (
 CREATE TABLE subscription_purchases (
 	subscription_id INT NOT NULL,
 	client_id INT NOT NULL,
-	timedate DATETIME NOT NULL,
-	used_images INT NOT NULL,
+	timedate DATETIME NOT NULL DEFAULT NOW(),
+	used_images INT NOT NULL DEFAULT 0,
 	price FLOAT NOT NULL,
 	FOREIGN KEY (subscription_id) REFERENCES subscriptions(id),
 	FOREIGN KEY (client_id) REFERENCES clients(id)
@@ -198,9 +199,9 @@ CREATE TABLE prices (
 	id INT NOT NULL AUTO_INCREMENT,
 	p_type INT NOT NULL,
 	price INT NOT NULL,
-	timedate DATETIME NOT NULL,
-	ceo_approve BOOLEAN,
-	active BOOLEAN,
+	timedate DATETIME NOT NULL DEFAULT NOW(),
+	ceo_approve BOOLEAN DEFAULT FALSE,
+	active BOOLEAN DEFAULT FALSE,
 	PRIMARY KEY (id),	
 	FOREIGN KEY (p_type) REFERENCES price_type(id)
 );
@@ -369,9 +370,9 @@ VALUES
 	(NULL,4,3),
 	(NULL,5,1),
 	(NULL,5,2),
-	(NULL,6,1),
-	(NULL,6,2),
-	(NULL,6,3);
+	(NULL,9,1),
+	(NULL,9,2),
+	(NULL,9,3);
 
 /*
 * System prices

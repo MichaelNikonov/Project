@@ -1,0 +1,37 @@
+package server.main;
+
+import server.controllers.ConfigurationController;
+import server.database.Database;
+import sgi.entities.*;
+
+public class ServerMain {
+
+	private static ConfigurationController _config;
+	private static Database _db;
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// Load configuration
+		_config = new ConfigurationController();
+		System.out.println("PORT: " + _config.getConfiguration().getPort());
+		
+		// Initialize DB object
+		_db = new Database(_config.getConfiguration().getHost(),_config.getConfiguration().getDBName(),
+				_config.getConfiguration().getSqlUsername(),_config.getConfiguration().getSqlPassword());
+		
+		Client temp = _db.getClient("dan");
+		temp.setLastName("A");
+		User utemp = temp.getUser();
+		utemp.setPassword("dan");
+		temp.setUser(utemp);
+		
+		if (_db.updateClient(temp)==1)
+			System.out.println("Client " + temp.getFirstName() + " updated!");
+		else
+			System.out.println("Client " + temp.getFirstName() + " NOT updated!");
+		
+		_config.showConfigurationWindow();
+	}
+
+}

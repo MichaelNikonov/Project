@@ -1,0 +1,33 @@
+package client.gui;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+public class JImageBox extends JPanel {
+
+	private BufferedImage _image;
+
+	public JImageBox(String imgFile) {
+		try {
+			File imgF = new File(imgFile);
+			if (imgF.exists() && !imgF.isDirectory()) {
+				_image = ImageIO.read(imgF);
+				this.setPreferredSize(new Dimension(_image.getWidth(), _image.getHeight()));
+			}
+		} catch (Exception e) {
+			System.out.println("JImageBox: " + e.getMessage());
+			_image = null;
+		}
+	}
+	
+	public void printComponent(Graphics g) {
+		super.printComponent(g);
+		if (_image == null) return;
+		g.drawImage(_image, 0, 0, null);
+	}
+	
+}

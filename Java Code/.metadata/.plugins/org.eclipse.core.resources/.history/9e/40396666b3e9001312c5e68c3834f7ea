@@ -1,0 +1,23 @@
+package server.models;
+
+import server.controllers.RequestController.REQUESTS;
+
+public class DataPackage {
+
+	private REQUESTS _type;
+	private Object[] _params;
+	private Object _data;
+
+	public DataPackage(REQUESTS type, int[] intParams, 
+			String[] strParams, Object data) {
+		_type = type;
+		_int_para = intParams;
+		_str_para = strParams;
+		_data = data;
+	}
+	
+	public REQUESTS getRequestType() { return _type; }
+	public int[] getIntParams() { return _int_para; }
+	public String[] getStringParams() { return _str_para; }
+	public Object getData() { return _data; }
+}

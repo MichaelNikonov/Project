@@ -1,0 +1,14 @@
+package server.controllers;
+
+import server.models.ServerConfiguration;
+
+public class ConfigurationController {
+
+	private ServerConfiguration _config;
+	private final String CONFIG_FILE = "configuration.xml";
+	
+	public ConfigurationController() {
+		XMLReader xml = new XMLReader(CONFIG_FILE);
+	}
+	
+}

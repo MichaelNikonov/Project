@@ -1,51 +1,27 @@
 package server.main;
 
-import java.util.ArrayList;
-import java.util.Date;
-
+import server.controllers.*;
 import server.database.Database;
-import sgi.entities.*;
-
 
 public class ServerMain {
 
-	/**
-	 * @param args
-	 */
+	private static ConfigurationController _config;
+	private static Database _db;
+	private static ServerController _server;
+	
 	public static void main(String[] args) {
-		Database db = new Database("localhost","sgi","root","root");
-		/*
-		ArrayList<User> users = db.getUsers();
-		if (users!=null) {
-			System.out.println("User 1: " + users.get(0).getUsername());
-			if (db.setUserOnline(users.get(0),"127.0.0.1")==1)
-				System.out.println("User 1 is online");
-			else
-				if (db.setUserOnline(users.get(0),"127.0.0.1")==2) {
-					System.out.println("User 1 already online!");
-					if (db.setUserOffline(users.get(0)))
-						System.out.println("User is now offline!");
-					else
-						System.out.println("Error logging off the user!");
-				}
-				else
-					System.out.println("Error logging in the user!");
-		}
-		else
-			System.out.println("No Permissions in the system!");
+		// Load configuration
+		_config = new ConfigurationController();
+		System.out.println("PORT: " + _config.getConfiguration().getPort());
 		
-		ArrayList<User> users = db.getUnusedLoggedUsers(15);
-		if (users==null) System.out.println("no users!"); else
-		System.out.println(users.size());
-		if (db.removeUnusedLoggedUsers(15)) System.out.println("All 15 min users logged off");
-		*/
-		ArrayList<Complaint> layers = db.getNearDeadlineComplaints(1, (int)(21.7*60));
-		if (layers==null)
-			System.out.println("\"no complaints!\"");
-		else
-			for (int i = 0; i < layers.size(); i++) {
-				System.out.println(layers.get(i).getId() + ", " + layers.get(i).getTitle());
-		}
+		// Initialize DB object
+		_db = new Database(_config.getConfiguration().getHost(),_config.getConfiguration().getDBName(),
+				_config.getConfiguration().getSqlUsername(),_config.getConfiguration().getSqlPassword());
+
+		// Initialize server object
+		_server = new ServerController(_config.getConfiguration().getPort(), _config);
+		
+		_server.ShowGUI();
 	}
 
 }

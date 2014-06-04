@@ -1,19 +1,40 @@
 package sgi.entities;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
 public class Layer implements ILayer {
 
 	private int _id;
 	private int _imageid;
 	private LayerType _type;
+	private BufferedImage _layer;
 	
 	public Layer(int id, int imageid, LayerType type) {
 		_id = id;
 		_imageid = imageid;
 		_type = type;
+		_layer = null;
 	}
 	
+	public Layer(int id, int imageid, LayerType type, String layerFile) {
+		_id = id;
+		_imageid = imageid;
+		_type = type;
+		try {
+			_layer = ImageIO.read(new File(layerFile));
+		} catch (Exception e) { _layer = null; }
+	}
+
 	public int getId() { return _id; }
 	public int getImageId() { return _imageid; }
 	public LayerType getType() { return _type; }
+	public BufferedImage getLayerImage() { return _layer; }
 	
+	public void setImage(String layerFile) {
+		try {
+			_layer = ImageIO.read(new File(layerFile));
+		} catch (Exception e) { _layer = null; }
+	}
 }

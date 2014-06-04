@@ -1,0 +1,13 @@
+package server.controllers;
+
+public class RequestController {
+
+	public enum REQUESTS {
+		LOGIN_USER, LOGOUT_USER,
+		GET_ALL_CLIENTS, GET_CLIENT_BY_ID, GET_CLIENT_BY_USERNAME,
+		GET_EMPLOYESS, GET_EMPLOYEE_BY_ID, GET_EMPLOYEE_BY_USERNAME,
+		
+	}
+	
+	
+}
