@@ -18,4 +18,6 @@ public class DataPackage implements Serializable {
 	
 	public REQUESTS getRequestType() { return _type; }
 	public Object getData() { return _data; }
+	public void setData(Object value) { _data = value; }
+	
 }
