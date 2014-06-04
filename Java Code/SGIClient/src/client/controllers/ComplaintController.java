@@ -74,7 +74,7 @@ public class ComplaintController implements ISGIClient, IComplaint{
   * @return - true in case of successful sending ,false-otherwise
   */
   public boolean addNewComplaint(Complaint ComplaintData){
-	  REQUESTS req = RequestController.REQUESTS.ADD_NEW_COMPLAINT;
+	  REQUESTS req = RequestController.REQUESTS.ADD_COMPLAINT;
 	  try {
 		  sendMessage(ComplaintData,req);
 		  return true;
