@@ -1244,8 +1244,9 @@ public final class Database {
 			rs = _getSubscription.executeQuery();				
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
-				res = new Subscription(rs.getInt(1), getSubscriptionType(rs.getInt(2)),
-						getLayerType(rs.getInt(3)),rs.getInt(4));
+				res = new Subscription(rs.getInt("id"), getSubscriptionType(rs.getInt("s_type")),
+						getLayerType(rs.getInt("layer_type")),rs.getInt("image_amount"),
+						rs.getBoolean("active"));
 			}
 			return res;
 		} catch (SQLException e) {
