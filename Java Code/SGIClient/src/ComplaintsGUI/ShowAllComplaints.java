@@ -2,6 +2,8 @@
 
 package ComplaintsGUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
 
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +22,7 @@ public class ShowAllComplaints extends javax.swing.JPanel {
      * Creates new form ShowAllComplaints
      */
 	
-	ComplaintController controller;
+	protected ComplaintController controller;
     public ShowAllComplaints(ComplaintController controller) {
     	this.controller = controller;
         initComponents();
@@ -86,6 +88,7 @@ public class ShowAllComplaints extends javax.swing.JPanel {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new CancelAction(controller,this));
 
         message.setForeground(new java.awt.Color(255, 0, 0));
         message.setText("message line");
@@ -139,18 +142,34 @@ public class ShowAllComplaints extends javax.swing.JPanel {
         else{
         	ViewComplaintGUI showComplaint = new ViewComplaintGUI((String)model.getValueAt(tblComplaints.getSelectedRow(), 1), //UserName
         			                                              (String)model.getValueAt(tblComplaints.getSelectedRow(), 2), //Title 
-        			                                              (String)null,//Content
+        			                                              (String)controller.getComplaitBuffer().get(tblComplaints.getSelectedRow()).getContent(),//Content
         			                                              (Date)model.getValueAt(tblComplaints.getSelectedRow(),   3 ),   //date opened
         			                                              (Date)model.getValueAt(tblComplaints.getSelectedRow(),   4 ),   //date closed
         			                                              (float)model.getValueAt(tblComplaints.getSelectedRow(),   5), //compensation
         			                                              (int)model.getValueAt(tblComplaints.getSelectedRow(),   6), //Worker id
-        			                                              (String)model.getValueAt(tblComplaints.getSelectedRow(),   7)//Worker name 
+        			                                              (String)model.getValueAt(tblComplaints.getSelectedRow(),   7),//Worker name 
+        			                                              this                                                          //transfer complaint list instance
         			       			       			
         			        			);
-         
+        	showComplaint.setVisible(true);//display selected complaint
+        	controller.getAllComplaintsList().setVisible(false);//make all complaints list invisible 
+        	
         }
     }//GEN-LAST:event_btnViewSelectedActionPerformed
-
+   class  CancelAction implements ActionListener{
+      private ShowAllComplaints allComplaints;
+      ComplaintController controller;
+	public CancelAction(ComplaintController controller, ShowAllComplaints allComplaintsList){
+		this.allComplaints = allComplaintsList;
+		this.controller = controller;
+	}
+	public void actionPerformed(ActionEvent arg0) {
+		allComplaints.setVisible(false);//make all complaints list invisible 
+		controller.setComplaintBuffer(null);//empty Complaint buffer
+		controller.getComplaintWorkerGUI().setVisible(true);//make complaint Worker GUI visible.
+	}
+	   
+   }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnViewSelected;

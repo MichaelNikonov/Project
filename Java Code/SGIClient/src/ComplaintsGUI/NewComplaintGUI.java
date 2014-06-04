@@ -92,9 +92,7 @@ class SendNewComplaint implements ActionListener
 
 	public void actionPerformed(ActionEvent e) {
 		Calendar cal = Calendar.getInstance();
-		while(controller.addNewComplaint()){}//wait to response from client that message has been sent 
-		while(controller.getComplaintTemp()==null ){}//wait for response from server about id receive
-		Complaint ComplaintData  = new Complaint(controller.getId(),
+		Complaint ComplaintData  = new Complaint(0,//for new complaint id = 0 
 				                                 controller.getClient(),
 				                                 controller.getType(),
 				                                 textTitle.getText(),
@@ -102,7 +100,6 @@ class SendNewComplaint implements ActionListener
 				                                 cal.getTime());
 		
 		controller.addNewComplaint(ComplaintData);
-		controller.setComplaintTemp(null);
 	}
 	
 	

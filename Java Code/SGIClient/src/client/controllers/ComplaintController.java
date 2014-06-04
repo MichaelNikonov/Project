@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 
+import ComplaintsGUI.ComplaintWorkerGUI;
 import ComplaintsGUI.ShowAllComplaints;
 
 import client.main.IClient;
@@ -23,13 +24,16 @@ import sgi.entities.IComplaint;
 public class ComplaintController implements IClient, IComplaint{
 	
 	
-	private ArrayList<Complaint> complaitBuffer=null; //Complaint buffer for multiple received complaints 
+	private ArrayList<Complaint> complaintBuffer=null; //Complaint buffer for multiple received complaints 
 	private MainClient clientForSend;
 	private IClient iclient;
-	private Complaint complaintTemp=null ; //temporary variable for last received Complaint id
-	public void ComplainController(MainClient client){
+	private ComplaintWorkerGUI ComplaintWorkerGUI;
+	private  ShowAllComplaints allComplaintsList;
+	public ComplaintController(MainClient client,ComplaintWorkerGUI parentGUI){
 		this.clientForSend =  client;
 		iclient = this;
+		this.ComplaintWorkerGUI = parentGUI;
+		
 
 		
 	}
@@ -51,7 +55,7 @@ public class ComplaintController implements IClient, IComplaint{
  * in this case the "data" parameter is null and request is GET_ID_FOR_NEW_COMPLAINT
  *
  * @return - true in case of successful sending,false otherwise.
- */
+ 
  public boolean addNewComplaint(){ 
 	 REQUESTS req = RequestController.REQUESTS.GET_ID_FOR_NEW_COMPLAINT;
 	  try {
@@ -64,12 +68,11 @@ public class ComplaintController implements IClient, IComplaint{
 		  return false;
 	  }
 	 
- }
+ }*/
  /**
-  * Little bit advanced function,that sends the whole new complaint data that received from GUI.Function must be called after
-  * id for new complaint has been received
-  * @param ComplaintData - Complaint parameters,including id,date created,title,costumer added..
-  * @return - true in case of successful sending ,false otherwise
+  * Function,that sends the whole new complaint data that received from GUI.
+  * @param ComplaintData - Complaint parameters,including id = 0,date created,title,costumer added..
+  * @return - true in case of successful sending ,false-otherwise
   */
   public boolean addNewComplaint(Complaint ComplaintData){
 	  REQUESTS req = RequestController.REQUESTS.ADD_NEW_COMPLAINT;
@@ -86,18 +89,32 @@ public class ComplaintController implements IClient, IComplaint{
   }  
   
   
-  
+  /**
+   * Function for creating new table in GUI that contains all current complaints
+   */
  public void  getAllComplaints(){
 	  REQUESTS req = RequestController.REQUESTS.GET_ALL_COMPLAINTS;
 	  try { sendMessage(null,req);
-	  while (complaitBuffer==null){} //wait until message from server has not been received.
+	  while (complaintBuffer==null){} //wait until message from server has not been received.
 	  ShowAllComplaints allComplaints = new  ShowAllComplaints(this);//create new empty list 
+	  this.allComplaintsList = allComplaints;
 	  DefaultTableModel model = (DefaultTableModel)allComplaints.getTblComplaints().getModel();
-	  //create loop for adding rows to empty table
-	   }
+	  // loop for adding rows to empty table
+	  for(int i =0 ;i < complaintBuffer.size();i++){
+		  model.addRow(new Object[]{complaintBuffer.get(i).getClient().getId(),
+				                    complaintBuffer.get(i).getClient().getUsername(),
+				                    complaintBuffer.get(i).getTitle(),
+				                    complaintBuffer.get(i).getSendDateTime(),
+				                    complaintBuffer.get(i).getReplyDateTime(),
+				                    complaintBuffer.get(i).getEmployee().getId(),
+				                    complaintBuffer.get(i).getEmployee().getFirstName(),
+				                    complaintBuffer.get(i).getCompensation()});
+	  }
+	  allComplaints.setVisible(true);//show All complaint list
+	    }
 	  catch (IOException e){
 		  System.out.println(e.getMessage());
-		  complaitBuffer=null;
+		  complaintBuffer=null;
 	  }
 	  
   }
@@ -130,7 +147,7 @@ public class ComplaintController implements IClient, IComplaint{
 
 @Override
 public int getId() {//get last new added complaint id 
-	return complaintTemp.getId();
+	return 0;
 	 
 }
 
@@ -220,30 +237,31 @@ public void getResults(Object msg) {
 	REQUESTS req  = temp.getRequestType();
 	switch(req){
 	/**
-	 * in case that server returned ADD_NEW_COMPLAINT,that means that server received 
-	 * our new complaint id Request,returned us the id for new complaint
-	 * ,and ready for receiving the complaint whole data. 
+	 * in those cases server returning an ArrayList of complaints that must be displayed in GUI.
 	 */
-	case  ADD_NEW_COMPLAINT : {complaintTemp =(Complaint) temp.getData();break;} 
-	/**
-	 * in other cases server returning an ArrayList of complaints that must be displayed in GUI.
-	 */
-	case GET_ALL_COMPLAINTS : {complaitBuffer = (ArrayList<Complaint>) temp.getData();break;}
-	case GET_UNSEEN_COMPLAINTS : {complaitBuffer = (ArrayList<Complaint>) temp.getData();break;}
-	case GET_UNADDRESSED_COMPLAINTS:{complaitBuffer = (ArrayList<Complaint>) temp.getData();break;}
+	case GET_ALL_COMPLAINTS : {complaintBuffer = (ArrayList<Complaint>) temp.getData();break;}
+	case GET_UNSEEN_COMPLAINTS : {complaintBuffer = (ArrayList<Complaint>) temp.getData();break;}
+	case GET_UNADDRESSED_COMPLAINTS:{complaintBuffer = (ArrayList<Complaint>) temp.getData();break;}
 	}
 	
 }
-public Complaint getComplaintTemp() {
-	return complaintTemp;
-}
 
-public void setComplaintTemp(Complaint complaintTemp) {
-	this.complaintTemp = complaintTemp;
-}
+
 
 public ArrayList<Complaint> getComplaitBuffer() {
-	return complaitBuffer;
+	return complaintBuffer;
+}
+
+public void setComplaintBuffer(ArrayList<Complaint> complaintBuffer) {
+	this.complaintBuffer = complaintBuffer;
+}
+
+public ComplaintWorkerGUI getComplaintWorkerGUI() {
+	return ComplaintWorkerGUI;
+}
+
+public ShowAllComplaints getAllComplaintsList() {
+	return allComplaintsList;
 }
 
 }

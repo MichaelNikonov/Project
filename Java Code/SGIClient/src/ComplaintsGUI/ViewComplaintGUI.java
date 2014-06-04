@@ -10,6 +10,9 @@ import javax.swing.DropMode;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
+import sgi.entities.Complaint;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -21,13 +24,13 @@ public class ViewComplaintGUI extends JPanel {
 	private JTextField txtCompensation;
 	private JTextField txtWorkerId;
 	private JTextField txtWorkerName;
-
+    private ShowAllComplaints parentList;
 	/**
 	 * Create the panel.
 	 */
-	public ViewComplaintGUI(String userName,String title,String content,Date dateAdded,Date dateClosed,float compensation,int workerID,String workerName) {
+	public ViewComplaintGUI(String userName,String title,String content,Date dateAdded,Date dateClosed,float compensation,int workerID,String workerName ,ShowAllComplaints ComplaintsList) {
 		setLayout(null);
-		
+		this.parentList = ComplaintsList;
 		JTextArea complaintContent = new JTextArea(content);
 		complaintContent.setBounds(10, 84, 454, 447);
 		add(complaintContent);
@@ -39,6 +42,11 @@ public class ViewComplaintGUI extends JPanel {
 		JButton btnCompensate = new JButton("Compensate/Reply");
 		btnCompensate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				
+				
+				
 			}
 		});
 		btnCompensate.setBounds(490, 375, 149, 23);

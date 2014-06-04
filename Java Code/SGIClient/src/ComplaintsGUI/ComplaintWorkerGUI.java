@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 
 import client.controllers.ComplaintController;
+import client.main.MainClient;
 
 import sgi.entities.Complaint;
 
@@ -17,14 +18,15 @@ public class ComplaintWorkerGUI extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	MainClient client;
 	
-	public ComplaintWorkerGUI(ComplaintController controller) {
+	public ComplaintWorkerGUI(MainClient client) {
 		setLayout(null);
-		
+		ComplaintController controller = new ComplaintController(client,this);
 		JButton btnShowAllComplaint = new JButton("Show All Complaints");
 		btnShowAllComplaint.setBounds(120, 56, 230, 53);
 		add(btnShowAllComplaint);
-		btnShowAllComplaint.addActionListener(new SearchGUI(controller));//connect the search button to search menu.
+		btnShowAllComplaint.addActionListener(new SearchGUI(controller,this ));//connect the search button to search menu.
 		
 		JButton btnGetNotClosedComplaints = new JButton("Get all unadressed complaints");
 		btnGetNotClosedComplaints.setBounds(120, 165, 230, 62);
@@ -37,12 +39,17 @@ public class ComplaintWorkerGUI extends JPanel {
 	}
 }
 class SearchGUI implements ActionListener {
-	ComplaintController controller;
-	public SearchGUI(ComplaintController controller){
-	 this.controller = controller;}
+	private ComplaintController controller;
+	private ComplaintWorkerGUI parent;
+	public SearchGUI(ComplaintController controller,ComplaintWorkerGUI parent){
+	 this.controller = controller;
+	 this.parent = parent;
+	 }
 
 	public void actionPerformed(ActionEvent e){
-	     controller.getAllComplaints();
+		 parent.setVisible(false);// make ComplaintWorkerGUI invisible  
+	     controller.getAllComplaints(); // call the method that creates all complaints list
+	    
 		
 	}
 	
