@@ -13,11 +13,6 @@ public class ServerMain {
 		// Load configuration
 		_config = new ConfigurationController();
 		System.out.println("PORT: " + _config.getConfiguration().getPort());
-		
-		// Initialize DB object
-		_db = new Database(_config.getConfiguration().getHost(),_config.getConfiguration().getDBName(),
-				_config.getConfiguration().getSqlUsername(),_config.getConfiguration().getSqlPassword());
-
 		// Initialize server object
 		_server = new ServerController(_config.getConfiguration().getPort(), _config);
 		
