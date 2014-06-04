@@ -10,7 +10,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class JImageBox extends JPanel {
-
+	
+	private static final long serialVersionUID = 982702346825835376L;
+	
 	private BufferedImage _image;
 	private boolean _stretch = false;
 	private ArrayList<BufferedImage> _overlays = new ArrayList<BufferedImage>();

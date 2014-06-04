@@ -1,8 +1,10 @@
-package Complaint;
+package client.controllers;
 
 import java.io.IOException;
 import java.sql.Date;
 import ocsf.client.*;
+import sgi.entities.Complaint;
+
 
 public class ComplaintController {
 

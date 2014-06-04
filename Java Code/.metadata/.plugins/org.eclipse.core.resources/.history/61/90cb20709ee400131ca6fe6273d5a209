@@ -1,7 +1,0 @@
-package SGIEntities;
-
-public class Layer {
-
-	private int _id;
-	
-}
