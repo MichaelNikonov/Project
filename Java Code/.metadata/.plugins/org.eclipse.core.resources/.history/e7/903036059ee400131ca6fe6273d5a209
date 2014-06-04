@@ -1,9 +1,0 @@
-package SGIEntities;
-
-public class SGIImage {
-
-	private int _id;
-	private Location _location;
-	private  _datetime;
-	
-}

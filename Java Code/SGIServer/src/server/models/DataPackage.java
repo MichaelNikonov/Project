@@ -1,9 +1,13 @@
 package server.models;
 
+import java.io.Serializable;
+
 import server.controllers.RequestController.REQUESTS;
 
-public class DataPackage {
+public class DataPackage implements Serializable {
 
+	private static final long serialVersionUID = 7149802628338847177L;
+	
 	private REQUESTS _type;
 	private Object _data;
 

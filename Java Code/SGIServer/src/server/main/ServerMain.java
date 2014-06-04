@@ -1,32 +1,27 @@
 package server.main;
 
-import java.util.ArrayList;
-import java.util.Date;
+import server.controllers.*;
 import server.database.Database;
-import server.models.*;
-import sgi.entities.*;
 
 public class ServerMain {
 
-	private static ServerConfiguration _config;
+	private static ConfigurationController _config;
 	private static Database _db;
-	/**
-	 * @param args
-	 */
-	@SuppressWarnings("deprecation")
+	private static ServerController _server;
+	
 	public static void main(String[] args) {
 		// Load configuration
-		_config = new ServerConfiguration();
-		// Initialize DB object
-		_db = new Database(_config.getHost(),_config.getDBName(),
-				_config.getSqlUsername(),_config.getSqlPassword());
+		_config = new ConfigurationController();
+		System.out.println("PORT: " + _config.getConfiguration().getPort());
 		
-		ArrayList<Location> locations = _db.getLocations();
-		SGIImage temp = new SGIImage(0,locations.get(0), new Date());
-		if (_db.addImage(temp))
-			System.out.println("Image added!");
-		else
-			System.out.println("Image not added!");
+		// Initialize DB object
+		_db = new Database(_config.getConfiguration().getHost(),_config.getConfiguration().getDBName(),
+				_config.getConfiguration().getSqlUsername(),_config.getConfiguration().getSqlPassword());
+
+		// Initialize server object
+		_server = new ServerController(_config.getConfiguration().getPort(), _config);
+		
+		_server.ShowGUI();
 	}
 
 }

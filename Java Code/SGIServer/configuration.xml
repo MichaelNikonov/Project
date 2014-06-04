@@ -1,0 +1,10 @@
+<Configuration>
+	<Port>5555</Port>
+	<Host>localhost</Host>
+	<DBName>sgi</DBName>
+	<SQLUser>root</SQLUser>
+	<SQLPassword>root</SQLPassword>
+	<ComplaintReplyDeadline>7</ComplaintReplyDeadline>
+	<MaxUnusedConnectionTime>3</MaxUnusedConnectionTime>
+	<LogoffUnusedConnections>true</LogoffUnusedConnections>
+</Configuration>

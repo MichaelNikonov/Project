@@ -1,0 +1,89 @@
+package server.controllers;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import ocsf.server.AbstractServer;
+import ocsf.server.ConnectionToClient;
+import server.gui.ServerGUI;
+import java.awt.event.*;
+
+import javax.swing.JOptionPane;
+
+public class ServerController extends AbstractServer {
+
+	private ServerGUI _gui;
+	private ConfigurationController _config;
+	
+	public void ShowGUI() {
+		_gui.setVisible(true);
+	}
+	
+	public ServerController(int port, ConfigurationController cc) {
+		super(port);
+		appendToLog("Server initialize with port " + port);
+		_config = cc;
+		_gui = new ServerGUI(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getActionCommand().equals("Start server")) {
+					try {
+						listen();
+						_gui.setServerStop();
+					} catch (IOException e1) {}
+				}
+				if (e.getActionCommand().equals("Stop server")) {
+					try {
+						if (getNumberOfClients() > 0) {
+							int ans = JOptionPane.showConfirmDialog(null, 
+									"There are connected clients.\n" +
+									"Stopping the server will disconnect all clients." +
+									"Are you sure?", "SGI Server",JOptionPane.YES_NO_OPTION);
+							if (ans==JOptionPane.NO_OPTION) return;
+						}
+						close();
+						_gui.setServerStart();
+					} catch (IOException e1) {}
+				}
+				if (e.getActionCommand().equals("Server configuration")) {
+					_config.showConfigurationWindow();
+				}
+			}});
+	}
+
+	protected void clientConnected(ConnectionToClient client) {
+		appendToLog(client.getName() + " connected and got the id: " + client.getId());
+	}
+
+	synchronized protected void clientDisconnected(ConnectionToClient client) {
+		appendToLog(client.getName() + " disconnected");		
+	}
+
+	protected void serverStarted() {
+		appendToLog("Server started");				
+	}
+
+	protected void serverStopped() {
+		appendToLog("Server stopped");				
+	}
+
+	protected void serverClosed() {
+		appendToLog("Server closed");				
+	}
+
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		appendToLog("Message recived from " + client.getName());
+	}
+	
+	private void appendToLog(String logEntry) {
+		try {
+			Date entryTime = new Date();
+		    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("serverlog.txt", true)));
+		    out.println(entryTime.toString() + " >> " + logEntry);
+		    out.close();
+		} catch (IOException e) {}		
+	}
+
+}

@@ -173,6 +173,7 @@ CREATE TABLE subscriptions (
 	s_type INT NOT NULL,
 	layer_type INT UNIQUE,
 	image_amount INT,
+	active BOOLEAN NOT NULL DEFAULT TRUE,
 	PRIMARY KEY (id),
 	FOREIGN KEY (s_type) REFERENCES subscription_type(id),
 	FOREIGN KEY (layer_type) REFERENCES layer_type(id)

@@ -1,0 +1,75 @@
+package server.controllers;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import ocsf.server.AbstractServer;
+import ocsf.server.ConnectionToClient;
+import server.gui.ServerGUI;
+import java.awt.event.*;
+
+public class ServerController extends AbstractServer {
+
+	private ServerGUI _gui;
+
+	public void ShowGUI() {
+		_gui.setVisible(true);
+	}
+	
+	public ServerController(int port) {
+		super(port);
+		appendToLog("Server initialize with port " + port);
+		_gui = new ServerGUI(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getActionCommand().equals("Start server")) {
+					try {
+						listen();
+						_gui.setServerButtonStop();
+					} catch (IOException e1) {}
+				}
+				if (e.getActionCommand().equals("Stop server")) {
+					try {
+						close();
+						_gui.setServerButtonStart();
+					} catch (IOException e1) {}
+				}
+			}});
+	}
+
+	protected void clientConnected(ConnectionToClient client) {
+		appendToLog(client.getName() + " connected and got the id: " + client.getId());
+	}
+
+	synchronized protected void clientDisconnected(ConnectionToClient client) {
+		appendToLog(client.getName() + " disconnected");		
+	}
+
+	protected void serverStarted() {
+		appendToLog("Server started");				
+	}
+
+	protected void serverStopped() {
+		appendToLog("Server stopped");				
+	}
+
+	protected void serverClosed() {
+		appendToLog("Server closed");				
+	}
+
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		appendToLog("Message recived from " + client.getName());
+	}
+	
+	private void appendToLog(String logEntry) {
+		try {
+			Date entryTime = new Date();
+		    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("serverlog.txt", true)));
+		    out.println(entryTime.toString() + " >> " + logEntry);
+		    out.close();
+		} catch (IOException e) {}		
+	}
+
+}

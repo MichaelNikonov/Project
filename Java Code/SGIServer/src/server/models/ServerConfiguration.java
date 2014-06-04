@@ -31,8 +31,8 @@ public class ServerConfiguration {
 	public String getDBName() { return _dbName; }
 	public String getSqlUsername() { return _sqlUser; }
 	public String getSqlPassword() { return _sqlPassword; }
-	public int getMaxUnusedConnectionTime() { return _complaintReplyDeadline; }
-	public int getComplaintReplyDeadline() { return _maxUnusedConnectionTime; }
+	public int getMaxUnusedConnectionTime() { return _maxUnusedConnectionTime; }
+	public int getComplaintReplyDeadline() { return _complaintReplyDeadline; }
 	public boolean getLogoffUnusedConnections() { return _logoffUnUsedConnections; }
 	
 	public void setPort(int value) { _port = value; }
@@ -45,15 +45,16 @@ public class ServerConfiguration {
 	public void setLogoffUnusedConnections(boolean value) { _logoffUnUsedConnections = value; }
 	
 	public String toXMLFileContent() {
-		String xml = "<Configuration>\n";
-		xml += "<Port>" + _port + "</Port>\n";
-		xml += "<Host>" + _host + "</Host>\n";
-		xml += "<DBName>" + _dbName + "</DBName>\n";
-		xml += "<SQLUser>" + _sqlUser + "</SQLUser>\n";
-		xml += "<SQLPassword>" + _sqlPassword + "</SQLPassword>\n";
-		xml += "<ComplaintReplyDeadline>" + _complaintReplyDeadline + "</ComplaintReplyDeadline>\n";
-		xml += "<MaxUnusedConnectionTime>" + _maxUnusedConnectionTime + "</MaxUnusedConnectionTime>\n";
-		xml += "<LogoffUnusedConnections>" + _logoffUnUsedConnections + "</LogoffUnusedConnections>\n";
+		String eol = System.getProperty("line.separator");
+		String xml = "<Configuration>" + eol;
+		xml += "\t<Port>" + _port + "</Port>" + eol;
+		xml += "\t<Host>" + _host + "</Host>" + eol;
+		xml += "\t<DBName>" + _dbName + "</DBName>" + eol;
+		xml += "\t<SQLUser>" + _sqlUser + "</SQLUser>" + eol;
+		xml += "\t<SQLPassword>" + _sqlPassword + "</SQLPassword>" + eol;
+		xml += "\t<ComplaintReplyDeadline>" + _complaintReplyDeadline + "</ComplaintReplyDeadline>" + eol;
+		xml += "\t<MaxUnusedConnectionTime>" + _maxUnusedConnectionTime + "</MaxUnusedConnectionTime>" + eol;
+		xml += "\t<LogoffUnusedConnections>" + _logoffUnUsedConnections + "</LogoffUnusedConnections>" + eol;
 		xml += "</Configuration>";
 		return xml;
 	}

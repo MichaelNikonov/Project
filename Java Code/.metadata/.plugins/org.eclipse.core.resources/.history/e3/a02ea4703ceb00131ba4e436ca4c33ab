@@ -1,0 +1,29 @@
+package server.controllers;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import ocsf.server.AbstractServer;
+import ocsf.server.ConnectionToClient;
+
+public class ServerController extends AbstractServer {
+
+	public ServerController(int port) {
+		super(port);
+	}
+
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+	}
+	
+	private void appendToLog(String logEntry) {
+		try {
+		    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(, true)));
+		    out.println(logEntry);
+		    out.close();
+		} catch (IOException e) {}		
+	}
+
+}

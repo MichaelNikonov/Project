@@ -12,6 +12,7 @@ import ComplaintsGUI.ShowAllComplaints;
 import client.main.IClient;
 import client.main.MainClient;
 import ocsf.client.*;
+<<<<<<< HEAD
 import server.controllers.RequestController;
 import server.controllers.RequestController.REQUESTS;
 import server.models.DataPackage;
@@ -20,6 +21,10 @@ import sgi.entities.Complaint;
 import sgi.entities.ComplaintType;
 import sgi.entities.Employee;
 import sgi.entities.IComplaint;
+=======
+import sgi.entities.Complaint;
+
+>>>>>>> origin/Server-branch
 
 public class ComplaintController implements IClient, IComplaint{
 	

@@ -18,10 +18,11 @@ public final class Database {
 		// Permissions
 		_getPermissions, _getPermission,
 		// Users
-		_getUser, _getUsers, _setUserOnLine, _removeUserOnLine, 
-		_getUnusedLoggedUsers, _removeUnusedLoggedUsers,
+		_getUser, _getUserByName, _getUsers, _setUserOnLine, _removeUserOnLine, 
+		_getUnusedLoggedUsers, _removeUnusedLoggedUsers, _addUser, _updateUser,
 		// Clients
 		_getClientById, _getClientByUsername, _getClientByName, _getClients,
+		_addClient, _updateClient,
 		// Employees
 		_getEmployeeById, _getEmployeeByUsername, _getEmployeeByPosition, 
 		_getEmployees, _getEmployeeType, _getEmployeeTypes,
@@ -29,20 +30,27 @@ public final class Database {
 		_getLocations, _getLocationById,
 		// Images
 		_getImage, _getImages,_searchImages, _addImage, _deleteImage,
+		_updateImage,
 		// Layers
 		_getLayers, _getLayer, _getLayerType, _getLayerTypes, _getImageLayers,
-		_getLayersByType,
+		_getLayersByType, _addLayer, _deleteLayer, _updateLayer,
 		// Prices
-		_getPriceType, _getPriceTypes,
+		_getPriceType, _getPriceTypes, _getPrices, _updatePrice,
+		_approvePrice, _activatePrice, _deactivatePrice,
 		// Subscription
 		_getSubscriptionType, _getSubscriptionTypes, _getClientSubscriptions,
-		_getSubscriptions, _getSubscription,
+		_getSubscriptions, _getSubscription, _addSubscription,
+		_updateSubscription, _activateSubscription, _deactivateSubscription,
 		// Complaints
 		_getComplaints, _getUnseenComplaints, _getUnrepliedComplaints,
 		_getNearDeadlineComplaints, _getComplaintType, _getComplaintTypes,
+		_addComplaint, _updateComplaint,
 		// Purchases And History
-		_getPurchases, _getPurchasesByMonth, _getClientPurchases,
-		_getClientSearchHistory;
+		_getImagePurchases, _getImagePurchasesByMonth, _getImagePurchasesByClient,
+		_getSubscriptionPurchases, _getSubscriptionPurchasesByMonth, 
+		_getSubscriptionPurchasesByClient,
+		_addImagePurchase, _addSubscriptionPurchase,
+		_getClientSearchHistory, _addClientSearchHistory;
 	
 	public Database(String sqlHost, String sqlDatabase, String sqlUser, 
 			String sqlPassword) {
@@ -67,6 +75,9 @@ public final class Database {
 			_getUser = _conn.prepareStatement(
 					"SELECT * FROM users " +
 					"WHERE username = ? AND password = ?");
+			_getUserByName = _conn.prepareStatement(
+					"SELECT * FROM users " +
+					"WHERE username = ?");
 			_getUsers = _conn.prepareStatement(
 					"SELECT * FROM users");
 			_setUserOnLine = _conn.prepareStatement(
@@ -83,6 +94,14 @@ public final class Database {
 			_removeUnusedLoggedUsers = _conn.prepareStatement(
 					"DELETE FROM online_users " +
 					"WHERE TIMESTAMPDIFF(MINUTE,timedate,NOW()) > ?");
+			_addUser = _conn.prepareStatement(
+					"INSERT INTO users " +
+					"(username,password,permission) " +
+					"VALUES (?,?,1)");
+			_updateUser = _conn.prepareStatement(
+					"UPDATE users " + 
+					"SET password = ? " +
+					"WHERE username = ?");
 			
 			// Client
 			_getClients = _conn.prepareStatement(
@@ -96,6 +115,15 @@ public final class Database {
 			_getClientByName = _conn.prepareStatement(
 					"SELECT * FROM clients " +
 					"WHERE first_name = ? OR last_name = ?");
+			_addClient = _conn.prepareStatement(
+					"INSERT INTO clients " +
+					"(id,first_name,last_name,phone,email,username) " +
+					"VALUES (NULL,?,?,?,?,?);");
+			_updateClient = _conn.prepareStatement(
+					"UPDATE clients " + 
+					"SET first_name = ?, last_name = ?, phone = ?, " +
+					"email = ?, username = ? " +
+					"WHERE id = ?");
 			
 			// Employee
 			_getEmployees = _conn.prepareStatement(
@@ -198,12 +226,12 @@ public final class Database {
 					"WHERE id = ?");
 			
 			// Purchases And History
-			_getPurchases = _conn.prepareStatement(
+			_getImagePurchases = _conn.prepareStatement(
 					"SELECT * FROM purchases");
-			_getClientPurchases = _conn.prepareStatement(
+			_getImagePurchasesByClient = _conn.prepareStatement(
 					"SELECT * FROM purchases " +
 					"WHERE client_id = ?");
-			_getPurchasesByMonth = _conn.prepareStatement(
+			_getImagePurchasesByMonth = _conn.prepareStatement(
 					"SELECT * FROM purchases " +
 					"WHERE MONTH(timedate) = ?");
 		
@@ -349,6 +377,25 @@ public final class Database {
 		}
 	}
 
+	public User getUser(String username) {
+		try {
+			User res = null;
+			ResultSet rs = null;
+			_getUserByName.setString(1, username);
+			rs = _getUserByName.executeQuery();
+			if (getResultSetCount(rs) > 0) {
+				rs.next();
+				res = new User(rs.getString(1), rs.getString(2), 
+								getPermission(rs.getInt(3)));
+			}
+			return res;
+		} catch (SQLException e) {
+			// Handle exception
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
 	public User getUser(String username, String password) {
 		try {
 			User res = null;
@@ -454,7 +501,7 @@ public final class Database {
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
 				res = new Client(rs.getInt(1), rs.getString(2), rs.getString(3), 
-						rs.getString(4), rs.getString(5), rs.getString(6));
+						rs.getString(4), rs.getString(5), getUser(rs.getString(6)));
 			}
 			return res;
 		} catch (SQLException e) {
@@ -473,7 +520,7 @@ public final class Database {
 			if (getResultSetCount(rs) > 0) {
 				rs.next();
 				res = new Client(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), 
-						rs.getString("phone"), rs.getString("email"), rs.getString("username"));
+						rs.getString("phone"), rs.getString("email"), getUser(rs.getString("username")));
 			}
 			return res;
 		} catch (SQLException e) {
@@ -494,8 +541,8 @@ public final class Database {
 				res = new ArrayList<Client>();
 				while (rs.next()) {
 					res.add(
-						new Client(rs.getInt(1), rs.getString(2), rs.getString(3), 
-							rs.getString(4), rs.getString(5), rs.getString(6)));				}
+						new Client(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), 
+								rs.getString("phone"), rs.getString("email"), getUser(rs.getString("username"))));				}
 			}
 			return res;
 		} catch (SQLException e) {
@@ -514,8 +561,8 @@ public final class Database {
 				res = new ArrayList<Client>();
 				while (rs.next()) {
 					res.add(
-						new Client(rs.getInt(1), rs.getString(2), rs.getString(3), 
-							rs.getString(4), rs.getString(5), rs.getString(6)));				}
+						new Client(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), 
+								rs.getString("phone"), rs.getString("email"), getUser(rs.getString("username"))));				}
 			}
 			return res;
 		} catch (SQLException e) {
@@ -525,6 +572,53 @@ public final class Database {
 		}
 	}
 
+	public int addClient(Client c) {
+		try {
+			_addUser.setString(1, c.getUser().getUsername());
+			_addUser.setString(2, c.getUser().getPassword());
+			_addClient.setString(1, c.getFirstName());
+			_addClient.setString(2, c.getLastName());
+			_addClient.setString(3, c.getPhone());
+			_addClient.setString(4, c.getEmail());
+			_addClient.setString(5, c.getUser().getUsername());
+			if ((_addUser.executeUpdate()==1) && (_addClient.executeUpdate()==1))
+				return 1;
+			else
+				return 0;
+		} catch (SQLException e) {
+			System.out.println("addClient: " + e.getMessage());
+			// Error code 1062 - duplicate key, means client username already exists
+			if (e.getErrorCode()==1062)
+				return 2;
+			else
+				return 0;
+		}
+	}
+	
+	public int updateClient(Client c) {
+		try {
+			_updateUser.setString(1, c.getUser().getPassword());
+			_updateUser.setString(2, c.getUser().getUsername());
+			_updateClient.setString(1, c.getFirstName());
+			_updateClient.setString(2, c.getLastName());
+			_updateClient.setString(3, c.getPhone());
+			_updateClient.setString(4, c.getEmail());
+			_updateClient.setString(5, c.getUser().getUsername());
+			_updateClient.setInt(6, c.getId());
+			if ((_updateUser.executeUpdate()==1) && (_updateClient.executeUpdate()==1))
+				return 1;
+			else
+				return 0;
+		} catch (SQLException e) {
+			System.out.println("updateClient: " + e.getMessage());
+			// Error code 1062 - duplicate key, means client username already exists
+			if (e.getErrorCode()==1062)
+				return 2;
+			else
+				return 0;
+		}
+	}
+	
 	// Employees
 	public Employee getEmployee(int id) {
 		try {
