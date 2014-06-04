@@ -44,9 +44,10 @@ public class ConfigurationGUI extends JFrame {
         _disconnectOnNoActivity.setSelected(current.getLogoffUnusedConnections());
     }
     
-    public void addActionListner(ActionListener e) {
+    public void addSaveButton(ActionListener e) {
     	_btnSaveConfig.addActionListener(e);
     }
+    
     public ServerConfiguration getConfiguration() {
     	ServerConfiguration ret = new ServerConfiguration(
     			Integer.parseInt(_txtPortNumber.getText()),
